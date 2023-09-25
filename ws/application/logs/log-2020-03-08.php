@@ -1,0 +1,30 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2020-03-08 18:18:18 --> Severity: Notice --> Undefined offset: 1 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 18:18:18 --> Severity: Notice --> Undefined offset: 2 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 18:18:46 --> Severity: Notice --> Undefined offset: 1 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 18:18:46 --> Severity: Notice --> Undefined offset: 2 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 19:24:37 --> Severity: Notice --> Undefined offset: 1 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 19:24:37 --> Severity: Notice --> Undefined offset: 2 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 19:25:01 --> Severity: Notice --> Undefined offset: 1 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 19:25:01 --> Severity: Notice --> Undefined offset: 2 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 19:27:23 --> Severity: Notice --> Undefined offset: 1 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 19:27:23 --> Severity: Notice --> Undefined offset: 2 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 19:51:30 --> Severity: Notice --> Undefined offset: 1 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 19:51:30 --> Severity: Notice --> Undefined offset: 2 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 19:53:16 --> Severity: Notice --> Undefined offset: 1 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 19:53:16 --> Severity: Notice --> Undefined offset: 2 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 20:47:51 --> Severity: Notice --> Undefined offset: 1 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 20:47:51 --> Severity: Notice --> Undefined offset: 2 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 20:49:19 --> Severity: Notice --> Undefined offset: 1 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 20:49:19 --> Severity: Notice --> Undefined offset: 2 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 21:22:54 --> Severity: Notice --> Undefined offset: 1 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 21:22:54 --> Severity: Notice --> Undefined offset: 2 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 22:28:46 --> Severity: Notice --> Undefined offset: 1 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 22:28:46 --> Severity: Notice --> Undefined offset: 2 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 22:29:11 --> Severity: Notice --> Undefined offset: 1 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 22:29:11 --> Severity: Notice --> Undefined offset: 2 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 22:30:33 --> Severity: Notice --> Undefined offset: 1 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 22:30:33 --> Severity: Notice --> Undefined offset: 2 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 22:30:33 --> Severity: Notice --> Undefined offset: 1 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-03-08 22:30:33 --> Severity: Notice --> Undefined offset: 2 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21

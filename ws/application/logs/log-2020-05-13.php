@@ -1,0 +1,14 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2020-05-13 15:20:09 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;member_pkey&quot;
+DETAIL:  Key (&quot;MemberCode&quot;)=(20020276996) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2020-05-13 15:20:09 --> Query error: ERROR:  duplicate key value violates unique constraint "member_pkey"
+DETAIL:  Key ("MemberCode")=(20020276996) already exists. - Invalid query: INSERT INTO "member"."Member" ("Handpone", "City", "Name", "District", "PosCode", "Address", "StoreCode", "memberFrom", "MemberCode", "FullName", "Email", "Password", "RegistrationDate", "CreatedBy", "CreatedDate", "LastUpdate", "ValidUntil", "OTP", "fidMemberCategory") VALUES ('081388157880', 'KOTA TANGERANG', 'Tiwi', 'CIPONDOH', '15148', 'Cipondoh permai komplek Garuda jln harmonika blok M 04 RT 06 RW 08, KOTA TANGERANG, CIPONDOH, BANTEN, ID, 15148', 'Z301', 'SHOPEE', '20020276996', 'Tiwi', '', '0208ae301cb33540187c9e0b27472eb8', '2020-05-13', 'bePOS', '2020-05-13 15:20:09', '2020-05-13 15:20:09', '2021-05-13', '562756', '02')
+ERROR - 2020-05-13 19:14:59 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;member_pkey&quot;
+DETAIL:  Key (&quot;MemberCode&quot;)=(20020277247) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2020-05-13 19:14:59 --> Query error: ERROR:  duplicate key value violates unique constraint "member_pkey"
+DETAIL:  Key ("MemberCode")=(20020277247) already exists. - Invalid query: INSERT INTO "member"."Member" ("DateOfBirth", "MemberCode", "Name", "Email", "Handpone", "Password", "RegistrationDate", "CreatedBy", "DeviceToken", "fidMemberCategory", "StoreCode") VALUES ('19950101', '20020277247', 'Ade Rahmat Sutrisno', 'aderahmatsutrisno@gmail.com', '', '03c4ec491b037db2ba285b6984255bb3', '2020-05-13', 'Elshop_Elzatta', '', '02', 'ZHO')
+ERROR - 2020-05-13 19:15:48 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;member_pkey&quot;
+DETAIL:  Key (&quot;MemberCode&quot;)=(20020277250) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2020-05-13 19:15:48 --> Query error: ERROR:  duplicate key value violates unique constraint "member_pkey"
+DETAIL:  Key ("MemberCode")=(20020277250) already exists. - Invalid query: INSERT INTO "member"."Member" ("DateOfBirth", "MemberCode", "Name", "Email", "Handpone", "Password", "RegistrationDate", "CreatedBy", "DeviceToken", "fidMemberCategory", "StoreCode") VALUES ('19950101', '20020277250', 'yulita apriyani', 'yulitaapriyani18@gmail.com', '', 'ff8602c999824dcfa882c5cf6666a0d3', '2020-05-13', 'Elshop_Elzatta_Dauky', '', '02', 'ZHO')

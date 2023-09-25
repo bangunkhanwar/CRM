@@ -1,0 +1,11 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2020-07-09 03:04:00 --> 404 Page Not Found: /index
+ERROR - 2020-07-09 10:42:11 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;member_pkey&quot;
+DETAIL:  Key (&quot;MemberCode&quot;)=(20020299237) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2020-07-09 10:42:11 --> Query error: ERROR:  duplicate key value violates unique constraint "member_pkey"
+DETAIL:  Key ("MemberCode")=(20020299237) already exists. - Invalid query: INSERT INTO "member"."Member" ("RegistrationDate", "ValidUntil", "CreatedBy", "CreatedDate", "fidMemberCategory", "StoreCode", "MemberCode", "IdCardNumber", "Name", "CityOfBirth", "DateOfBirth", "Address", "RT", "RW", "Village", "District", "City", "Provinces", "PosCode", "Phone", "Handpone", "Email", "Sex", "Married", "ModifiedBy", "ModifiedDate", "LastUpdate", "Barcode", "FullName", "isMerchantPartner", "instagram", "facebook", "memberFrom", "MerchantPartnerCode", "MemberCodeMerchantPartner", "OTP") VALUES ('2020-07-09 10:42:11', '2021-07-09', 'Z766', '2020-07-09 10:42:11', '02', 'Z766', '20020299237', '', 'SITI SMINAH', 'TULUNGAGUNG', '19750709', '', '', '', '0', '0', '0', '0', '', '', '081357161699', '', '2', '2', 'Z766', '2020-07-09 10:42:11', '2020-07-09 10:42:11', '', 'SITI SMINAH', '0', '', '', '', '', '', '421775')
+ERROR - 2020-07-09 20:57:22 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;member_pkey&quot;
+DETAIL:  Key (&quot;MemberCode&quot;)=(20020299463) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2020-07-09 20:57:22 --> Query error: ERROR:  duplicate key value violates unique constraint "member_pkey"
+DETAIL:  Key ("MemberCode")=(20020299463) already exists. - Invalid query: INSERT INTO "member"."Member" ("DateOfBirth", "MemberCode", "Name", "Email", "Handpone", "Password", "RegistrationDate", "CreatedBy", "DeviceToken", "fidMemberCategory", "StoreCode") VALUES ('19950101', '20020299463', 'dianni arma', 'dianniarmawahyusetianingsih@gmail.com', '', '06e0fbd340df26b9a465778252b0b909', '2020-07-09', 'Elshop_Elzatta', '', '02', 'ZHO')

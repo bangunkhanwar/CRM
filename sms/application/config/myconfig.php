@@ -1,0 +1,34 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
+$config['logo_path']		= "";
+$config['app_name']			= "SMS CRM";
+$config['app_name_ws']		= "WS";
+$config['app_name_mobile']	= "App CRM";
+$config['app_name_admin']	= "Admin CRM";
+// $config['u_api_smsblast']	= "elhijab";
+// $config['p_api_smsblast']	= "PCxGu4u4";
+// $config['u_api_smsblast']	= "elzatta";
+// $config['p_api_smsblast']	= "36JKEFUe";
+// $config['sender_smsblast']	= "MD Media";
+// $config['u_api_smsblast']	= "elcorps";
+// $config['p_api_smsblast']	= "TRBndZF8";
+// $config['u_api_smsblast']	= "elcorpspremium";
+// $config['p_api_smsblast']	= "sP33fnes";
+$config['u_api_smsblast']	= "elcorpspremium";
+$config['p_api_smsblast']	= "sdu8Hhjk";
+$config['sender_smsblast']	= "elcorps";
+$config['u_api']			= "ict";
+$config['p_api']			= "ict@api2018";
+$config['url_api_pulsa']	= "https://secure.billfazz.com/sandbox/api/v1/";
+$config['url_api_paytree']  = "https://tripay.co.id/api/v2/";
+$config['apikey_paytree']	= "c5396acd8a53c78814bd99cbf81338abf32aa7b18f5f4b081b1853a4cbac";
+$config['u_api_paytri']		= "";
+$config['p_api_paytri']	    = "c5396acd8a53c78814bd99cbf81338abf32aa7b18f5f4b081b1853a4cbac";
+$config['client_name_tripay']= "tripay";
+
+
+$config['u_api_pulsa']		= "";
+$config['p_api_pulsa']	    = "c31129c08d5f211988bc9b2a3ce5883deac2f5726fce589fb3";
+$config['callback_api_pulsa'] = "https://client-host/callback/billfazz/";
+$config['url_api_crm'] = "http://crm.elcorps.com:9081/";
+$config['u_crm'] = "m-app_v.001";
+$config['p_crm'] = "16f87a18bcfc613a2ce52bc78b8b7929";

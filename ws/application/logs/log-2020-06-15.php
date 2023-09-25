@@ -1,0 +1,7 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2020-06-15 13:31:24 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;member_pkey&quot;
+DETAIL:  Key (&quot;MemberCode&quot;)=(20020292315) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2020-06-15 13:31:24 --> Query error: ERROR:  duplicate key value violates unique constraint "member_pkey"
+DETAIL:  Key ("MemberCode")=(20020292315) already exists. - Invalid query: INSERT INTO "member"."Member" ("Handpone", "City", "Name", "District", "PosCode", "Address", "StoreCode", "memberFrom", "MemberCode", "FullName", "Email", "Password", "RegistrationDate", "CreatedBy", "CreatedDate", "LastUpdate", "ValidUntil", "OTP", "fidMemberCategory") VALUES ('082115457780', 'KOTA DEPOK', 'Dea A', 'TAPOS', '16454', 'Raffles Hills Blok L7 No. 18 - Cibubur, KOTA DEPOK, TAPOS, JAWA BARAT, ID, 16454', 'N301', 'SHOPEE', '20020292315', 'Dea A', '', '0e7a5b0194d9a0bdb0e06986d4af1fa3', '2020-06-15', 'bePOS', '2020-06-15 13:31:24', '2020-06-15 13:31:24', '2021-06-15', '779738', '02')
+ERROR - 2020-06-15 22:53:13 --> Severity: Warning --> Missing argument 1 for Voucher::myvoucherlist(), called in /home/elcorps/crm/ws/system/core/CodeIgniter.php on line 532 and defined /home/elcorps/crm/ws/application/modules/voucher/controllers/Voucher.php 19

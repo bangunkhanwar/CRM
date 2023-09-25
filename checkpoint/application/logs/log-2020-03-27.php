@@ -1,0 +1,10 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2020-03-27 11:11:28 --> Severity: Warning --> pg_query(): Query failed: ERROR:  null value in column &quot;RecNum&quot; violates not-null constraint
+DETAIL:  Failing row contains (CJB6.00000000002, null, D120, null, null, null, null, 0.00, 0.00, 0.00, 0.00, 0.00, null, null, null, null, null, null, null, null, null, null, null, null, null, 3, 2020-03-27 11:11:28.334826, null, 0, D108, null). /home/elcorps/crm/adm/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2020-03-27 11:11:28 --> Query error: ERROR:  null value in column "RecNum" violates not-null constraint
+DETAIL:  Failing row contains (CJB6.00000000002, null, D120, null, null, null, null, 0.00, 0.00, 0.00, 0.00, 0.00, null, null, null, null, null, null, null, null, null, null, null, null, null, 3, 2020-03-27 11:11:28.334826, null, 0, D108, null). - Invalid query: INSERT INTO "omnichannel"."trCustomerOrderDetail" ("TransNum", "StoreCode", "StoreCodeTo", "TransStatus") VALUES ('CJB6.00000000002', 'D120', 'D108', '3')
+ERROR - 2020-03-27 11:12:10 --> Severity: Warning --> pg_query(): Query failed: ERROR:  null value in column &quot;RecNum&quot; violates not-null constraint
+DETAIL:  Failing row contains (CJB6.00000000002, null, D120, null, null, null, null, 0.00, 0.00, 0.00, 0.00, 0.00, null, null, null, null, null, null, null, null, null, null, null, null, null, 3, 2020-03-27 11:12:10.367381, null, 0, D137, null). /home/elcorps/crm/adm/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2020-03-27 11:12:10 --> Query error: ERROR:  null value in column "RecNum" violates not-null constraint
+DETAIL:  Failing row contains (CJB6.00000000002, null, D120, null, null, null, null, 0.00, 0.00, 0.00, 0.00, 0.00, null, null, null, null, null, null, null, null, null, null, null, null, null, 3, 2020-03-27 11:12:10.367381, null, 0, D137, null). - Invalid query: INSERT INTO "omnichannel"."trCustomerOrderDetail" ("TransNum", "StoreCode", "StoreCodeTo", "TransStatus") VALUES ('CJB6.00000000002', 'D120', 'D137', '3')

@@ -1,0 +1,6 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2020-03-26 10:44:03 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;member_pkey&quot;
+DETAIL:  Key (&quot;MemberCode&quot;)=(20020245758) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2020-03-26 10:44:03 --> Query error: ERROR:  duplicate key value violates unique constraint "member_pkey"
+DETAIL:  Key ("MemberCode")=(20020245758) already exists. - Invalid query: INSERT INTO "member"."Member" ("Handpone", "City", "Name", "District", "PosCode", "Address", "StoreCode", "memberFrom", "MemberCode", "FullName", "Email", "Password", "RegistrationDate", "CreatedBy", "CreatedDate", "LastUpdate", "ValidUntil", "OTP", "fidMemberCategory") VALUES ('081335678123', 'KAB. TRENGGALEK', 'ONY SULISTYAWATI, S.Pd', 'TRENGGALEK', '66315', 'Jl. HOS Cokroaminoto No.24 RT/RW : 013/004 Kelurahan Sumbergedong, KAB. TRENGGALEK, TRENGGALEK, JAWA TIMUR, ID, 66315', 'Z301', 'SHOPEE', '20020245758', 'ONY SULISTYAWATI, S.Pd', '', 'c0a856d23d2ad8de126e2d8cb797d8be', '2020-03-26', 'bePOS', '2020-03-26 10:44:03', '2020-03-26 10:44:03', '2021-03-26', '432350', '02')

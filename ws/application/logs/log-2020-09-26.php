@@ -1,0 +1,15 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2020-09-26 03:03:38 --> 404 Page Not Found: /index
+ERROR - 2020-09-26 21:35:29 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;Prevent_duplicate_same_time_create&quot;
+DETAIL:  Key (&quot;DateCreate&quot;, &quot;Msisdn&quot;)=(2020-09-26 21:35:29, 081912140007) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2020-09-26 21:35:29 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;Prevent_duplicate_same_time_create&quot;
+DETAIL:  Key (&quot;DateCreate&quot;, &quot;Msisdn&quot;)=(2020-09-26 21:35:29, 081912140007) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2020-09-26 21:35:29 --> Query error: ERROR:  duplicate key value violates unique constraint "Prevent_duplicate_same_time_create"
+DETAIL:  Key ("DateCreate", "Msisdn")=(2020-09-26 21:35:29, 081912140007) already exists. - Invalid query: INSERT INTO "ws"."Messages" ("DateCreate", "MessageType", "SenderID", "RequestBy", "Campaign", "Noaccent", "SMSType", "Msisdn", "Message", "OTP", "MemberCode", "SmsCount", "SmsCharCount") VALUES ('20200926 21:35:29', 'SMS', 'elcorps', 'App CRM', 'Aktivasi Handphone', 'False', '2', '081912140007', 'Your Verification ID: 266428', '266428', '270212314', '1', '28')
+ERROR - 2020-09-26 21:35:29 --> Query error: ERROR:  duplicate key value violates unique constraint "Prevent_duplicate_same_time_create"
+DETAIL:  Key ("DateCreate", "Msisdn")=(2020-09-26 21:35:29, 081912140007) already exists. - Invalid query: INSERT INTO "ws"."Messages" ("DateCreate", "MessageType", "SenderID", "RequestBy", "Campaign", "Noaccent", "SMSType", "Msisdn", "Message", "OTP", "MemberCode", "SmsCount", "SmsCharCount") VALUES ('20200926 21:35:29', 'SMS', 'elcorps', 'App CRM', 'Aktivasi Handphone', 'False', '2', '081912140007', 'Your Verification ID: 814640', '814640', '270212314', '1', '28')
+ERROR - 2020-09-26 21:35:29 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;Prevent_duplicate_same_time_create&quot;
+DETAIL:  Key (&quot;DateCreate&quot;, &quot;Msisdn&quot;)=(2020-09-26 21:35:29, 081912140007) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2020-09-26 21:35:29 --> Query error: ERROR:  duplicate key value violates unique constraint "Prevent_duplicate_same_time_create"
+DETAIL:  Key ("DateCreate", "Msisdn")=(2020-09-26 21:35:29, 081912140007) already exists. - Invalid query: INSERT INTO "ws"."Messages" ("DateCreate", "MessageType", "SenderID", "RequestBy", "Campaign", "Noaccent", "SMSType", "Msisdn", "Message", "OTP", "MemberCode", "SmsCount", "SmsCharCount") VALUES ('20200926 21:35:29', 'SMS', 'elcorps', 'App CRM', 'Aktivasi Handphone', 'False', '2', '081912140007', 'Your Verification ID: 682743', '682743', '270212314', '1', '28')

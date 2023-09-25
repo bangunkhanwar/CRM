@@ -1,0 +1,18 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
+$config['logo_path']		= "";
+$config['app_name']			= "SMS CRM";
+$config['app_name_ws']		= "WS";
+$config['app_name_mobile']	= "App CRM";
+$config['app_name_admin']	= "Admin CRM";
+// $config['u_api_smsblast']	= "elhijab";
+// $config['p_api_smsblast']	= "PCxGu4u4";
+// $config['u_api_smsblast']	= "elzatta";
+// $config['p_api_smsblast']	= "36JKEFUe";
+// $config['sender_smsblast']	= "MD Media";
+// $config['u_api_smsblast']	= "elcorps";
+// $config['p_api_smsblast']	= "TRBndZF8";
+$config['u_api_smsblast']	= "elcorpspremium";
+$config['p_api_smsblast']	= "sP33fnes";
+$config['sender_smsblast']	= "elcorps";
+$config['u_api']			= "ict";
+$config['p_api']			= "ict@api2018";

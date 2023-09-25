@@ -1,0 +1,15 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
+$config['logo_path']		= "";
+$config['app_name']			= "WS";
+$config['app_name_mobile']	= "App CRM";
+$config['app_name_admin']	= "Admin CRM";
+$config['url_api']			= "http://crm.elcorps.com:89/";
+$config['ws_api']			= "http://crm.elcorps.com:9081/";
+$config['u_api']			= "ict";
+$config['p_api']			= "ict@api2018";
+$config['u_api_self']		= "bepos_v.001";
+$config['p_api_self']		= "d66a2b04329e285a2ea802cc9b38acf8";
+$config['url_api_pulsa']	= "https://secure.billfazz.com/sandbox/api/v1/";
+$config['u_api_pulsa']		= "";
+$config['p_api_pulsa']	    = "c31129c08d5f211988bc9b2a3ce5883deac2f5726fce589fb3";
+$config['callback_api_pulsa'] = "https://client-host/callback/billfazz/";

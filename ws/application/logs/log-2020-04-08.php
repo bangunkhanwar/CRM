@@ -1,0 +1,6 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2020-04-08 10:29:19 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;member_pkey&quot;
+DETAIL:  Key (&quot;MemberCode&quot;)=(20020248475) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2020-04-08 10:29:19 --> Query error: ERROR:  duplicate key value violates unique constraint "member_pkey"
+DETAIL:  Key ("MemberCode")=(20020248475) already exists. - Invalid query: INSERT INTO "member"."Member" ("Handpone", "City", "Name", "District", "PosCode", "Address", "StoreCode", "memberFrom", "MemberCode", "FullName", "Email", "Password", "RegistrationDate", "CreatedBy", "CreatedDate", "LastUpdate", "ValidUntil", "OTP", "fidMemberCategory") VALUES ('081338058850', 'KAB. PANDEGLANG', 'Siti Yuleha', 'CIKEUSIK', '42286', 'PT Pyramide Paramount Indonesia (Tambak udang PPI)  Kampung Malangsari Desa Cikruhwetan, KAB. PANDEGLANG, CIKEUSIK, BANTEN, ID, 42286', 'Z301', 'SHOPEE', '20020248475', 'Siti Yuleha', '', '8cf129753fbd8b08afe67562496b1a8d', '2020-04-08', 'bePOS', '2020-04-08 10:29:19', '2020-04-08 10:29:19', '2021-04-08', '800306', '02')

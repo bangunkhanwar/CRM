@@ -1,0 +1,10 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2020-06-09 13:28:06 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;Voucher_pkey&quot;
+DETAIL:  Key (&quot;VoucherId&quot;)=(4204400117) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2020-06-09 13:28:06 --> Query error: ERROR:  duplicate key value violates unique constraint "Voucher_pkey"
+DETAIL:  Key ("VoucherId")=(4204400117) already exists. - Invalid query: INSERT INTO "voucher"."Voucher" ("StoreCode", "StoreCodeRedeem", "SKU", "Description", "VoucherId", "fidVoucherType", "fidAmount", "fidMotherBrand", "VoucherAmount", "Year", "Note", "Remark", "ExpiryDate", "UniqueCode", "PromoCode", "fidVoucherStatus", "CreatedBy", "MemberCode", "fidFileUpload", "fidVoucherCategory", "fidVoucherSubCategory") VALUES ('ZHO', '', '', 'E-VOUCHER BELANJA RP 50.000', '4204400117', '4', '4', '4', '50000', '2020', '', '', '2020-06-19', 'SVQG4G', '1922001', '4', 'CRM Webservice', '17732180404', '820', '0', '0')
+ERROR - 2020-06-09 13:28:06 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;trVoucher_pkey&quot;
+DETAIL:  Key (&quot;VoucherID&quot;)=(4204400117) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2020-06-09 13:28:06 --> Query error: ERROR:  duplicate key value violates unique constraint "trVoucher_pkey"
+DETAIL:  Key ("VoucherID")=(4204400117) already exists. - Invalid query: INSERT INTO "public"."msVoucher" ("StoreCode", "StoreCodeRedeem", "SKU", "VoucherID", "fidVoucherType", "fidMotherBrand", "fidVoucherStatus", "fidAmount", "VoucherAmount", "Tahun", "CreateBy", "Note", "Remark", "Description", "ExpiryDate", "UniqueCode", "PromoCode") VALUES ('ZHO', '', '', '4204400117', '4', '4', '4', '4', '50000', '2020', 'CRM Webservice', '', '', 'E-VOUCHER BELANJA RP 50.000', '2020-06-19', 'SVQG4G', '')

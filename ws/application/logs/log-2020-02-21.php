@@ -1,0 +1,34 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2020-02-21 09:38:28 --> Severity: Notice --> Undefined offset: 1 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-02-21 09:38:28 --> Severity: Notice --> Undefined offset: 2 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-02-21 11:10:59 --> Severity: Notice --> Undefined offset: 1 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-02-21 11:10:59 --> Severity: Notice --> Undefined offset: 2 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-02-21 11:21:35 --> Severity: Notice --> Undefined offset: 1 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-02-21 11:21:35 --> Severity: Notice --> Undefined offset: 2 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-02-21 11:22:36 --> Severity: Notice --> Undefined offset: 1 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-02-21 11:22:36 --> Severity: Notice --> Undefined offset: 2 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-02-21 11:23:14 --> Severity: Notice --> Undefined offset: 1 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-02-21 11:23:14 --> Severity: Notice --> Undefined offset: 2 /home/elcorps/crm/ws/application/helpers/MY_date_helper.php 21
+ERROR - 2020-02-21 11:58:00 --> Severity: Notice --> Undefined index: StoreCode /home/elcorps/crm/ws/application/modules/register/controllers/Register.php 406
+ERROR - 2020-02-21 11:58:00 --> Severity: Notice --> Undefined index: fidMemberCategory /home/elcorps/crm/ws/application/modules/register/controllers/Register.php 414
+ERROR - 2020-02-21 11:59:57 --> Severity: Notice --> Undefined index: StoreCode /home/elcorps/crm/ws/application/modules/register/controllers/Register.php 406
+ERROR - 2020-02-21 11:59:57 --> Severity: Notice --> Undefined index: fidMemberCategory /home/elcorps/crm/ws/application/modules/register/controllers/Register.php 414
+ERROR - 2020-02-21 12:16:25 --> Severity: Notice --> Undefined index: StoreCode /home/elcorps/crm/ws/application/modules/register/controllers/Register.php 406
+ERROR - 2020-02-21 12:16:25 --> Severity: Notice --> Undefined index: fidMemberCategory /home/elcorps/crm/ws/application/modules/register/controllers/Register.php 414
+ERROR - 2020-02-21 12:55:18 --> Severity: Notice --> Undefined index: StoreCode /home/elcorps/crm/ws/application/modules/register/controllers/Register.php 406
+ERROR - 2020-02-21 12:55:18 --> Severity: Notice --> Undefined index: fidMemberCategory /home/elcorps/crm/ws/application/modules/register/controllers/Register.php 414
+ERROR - 2020-02-21 13:08:45 --> Severity: Notice --> Undefined index: StoreCode /home/elcorps/crm/ws/application/modules/register/controllers/Register.php 406
+ERROR - 2020-02-21 13:08:45 --> Severity: Notice --> Undefined index: fidMemberCategory /home/elcorps/crm/ws/application/modules/register/controllers/Register.php 414
+ERROR - 2020-02-21 13:43:14 --> Severity: Notice --> Undefined index: StoreCode /home/elcorps/crm/ws/application/modules/register/controllers/Register.php 406
+ERROR - 2020-02-21 13:43:14 --> Severity: Notice --> Undefined index: fidMemberCategory /home/elcorps/crm/ws/application/modules/register/controllers/Register.php 414
+ERROR - 2020-02-21 16:17:42 --> Severity: Notice --> Undefined index: StoreCode /home/elcorps/crm/ws/application/modules/register/controllers/Register.php 406
+ERROR - 2020-02-21 16:17:42 --> Severity: Notice --> Undefined index: fidMemberCategory /home/elcorps/crm/ws/application/modules/register/controllers/Register.php 414
+ERROR - 2020-02-21 17:43:04 --> Severity: Notice --> Undefined index: StoreCode /home/elcorps/crm/ws/application/modules/register/controllers/Register.php 406
+ERROR - 2020-02-21 17:43:04 --> Severity: Notice --> Undefined index: fidMemberCategory /home/elcorps/crm/ws/application/modules/register/controllers/Register.php 414
+ERROR - 2020-02-21 19:27:38 --> Severity: Notice --> Undefined index: StoreCode /home/elcorps/crm/ws/application/modules/register/controllers/Register.php 406
+ERROR - 2020-02-21 19:27:38 --> Severity: Notice --> Undefined index: fidMemberCategory /home/elcorps/crm/ws/application/modules/register/controllers/Register.php 414
+ERROR - 2020-02-21 19:46:48 --> Severity: Notice --> Undefined index: StoreCode /home/elcorps/crm/ws/application/modules/register/controllers/Register.php 406
+ERROR - 2020-02-21 19:46:48 --> Severity: Notice --> Undefined index: fidMemberCategory /home/elcorps/crm/ws/application/modules/register/controllers/Register.php 414
+ERROR - 2020-02-21 20:10:41 --> Severity: Notice --> Undefined index: StoreCode /home/elcorps/crm/ws/application/modules/register/controllers/Register.php 406
+ERROR - 2020-02-21 20:10:41 --> Severity: Notice --> Undefined index: fidMemberCategory /home/elcorps/crm/ws/application/modules/register/controllers/Register.php 414

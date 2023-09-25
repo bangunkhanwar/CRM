@@ -1,0 +1,6 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2020-07-30 00:09:10 --> Severity: Notice --> Undefined index: HTTP_HOST /home/elcorps/crm/adm/application/config/config.php 27
+ERROR - 2020-07-30 15:27:02 --> Severity: Warning --> pg_query(): Query failed: ERROR:  value too long for type character varying(3) /home/elcorps/crm/adm/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2020-07-30 15:27:02 --> Query error: ERROR:  value too long for type character varying(3) - Invalid query: INSERT INTO "omnichannel"."fileUpload" ("fileServerName", "fileType", "filePath", "fileExt", "fileSize", "isImage", "imageWidth", "imageHeight", "imageType", "imageSizeStr", "fidData", "tableName", "realName", "SKU", "ColorCode", "fidProductSize", "fidProductParent", "fidUploadType", "Order", "ForeignID") VALUES ('1_20200730152702297722.jpg', 'jpg', 'files/15537/', 'jpg', '1985202', '1', '2000', '3000', 'jpg', '', '5', 'msProductParent', 'ZARIA MASKER TALITA COCOA BROWN 2.jpg', '120201030003', 'undefined', '', '15537', '2', '1', '120201030003')
+ERROR - 2020-07-30 19:19:33 --> Severity: Notice --> Undefined index: HTTP_HOST /home/elcorps/crm/adm/application/config/config.php 27

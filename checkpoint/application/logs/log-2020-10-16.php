@@ -1,0 +1,5 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2020-10-16 11:16:25 --> Severity: Warning --> pg_query(): Query failed: ERROR:  value too long for type character varying(3) /home/elcorps/crm/adm/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2020-10-16 11:16:25 --> Query error: ERROR:  value too long for type character varying(3) - Invalid query: INSERT INTO "omnichannel"."fileUpload" ("fileServerName", "fileType", "filePath", "fileExt", "fileSize", "isImage", "imageWidth", "imageHeight", "imageType", "imageSizeStr", "fidData", "tableName", "realName", "SKU", "ColorCode", "fidProductSize", "fidProductParent", "fidUploadType", "Order", "ForeignID") VALUES ('1_20201016111625973783.jpg', 'jpg', 'files/15648/', 'jpg', '340183', '1', '1000', '1000', 'jpg', '', '5', 'msProductParent', 'Resize Mukena S Larida.jpg', '120201150018', 'undefined', '', '15648', '2', '1', '120201150018')
+ERROR - 2020-10-16 22:29:46 --> Severity: Notice --> Undefined index: HTTP_HOST /home/elcorps/crm/adm/application/config/config.php 27

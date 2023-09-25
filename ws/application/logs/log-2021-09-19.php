@@ -1,0 +1,14 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2021-09-19 03:01:15 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;Points_pkey&quot;
+DETAIL:  Key (&quot;IdRec&quot;)=(2163402) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2021-09-19 03:01:15 --> Query error: ERROR:  duplicate key value violates unique constraint "Points_pkey"
+DETAIL:  Key ("IdRec")=(2163402) already exists. - Invalid query: INSERT INTO "points"."Points" ("TransNumRef", "StoreCode", "TransDate", "CreateBy", "CreateTime", "MemberCode", "fidMemberCategory", "TransType", "Description", "Debit", "Credit", "LastUpdate", "PromoCode") VALUES ('Z760.AKII.0002', 'Z760', '2021-09-18', 'WS', '20210919 03:01:15', '17602181540', '02', '1', 'Transaksi Sales', '12', '0', '20210919 03:01:15', '1821001')
+ERROR - 2021-09-19 06:25:58 --> 404 Page Not Found: /index
+ERROR - 2021-09-19 16:14:13 --> Severity: Warning --> pg_query(): Query failed: ERROR:  value too long for type character varying(30) /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2021-09-19 16:14:13 --> Query error: ERROR:  value too long for type character varying(30) - Invalid query: UPDATE "member"."Member" SET "MemberCode" = '21023265843', "IdCardNumber" = '', "Name" = 'wulandari', "CityOfBirth" = '', "DateOfBirth" = '19280101', "Address" = '', "RT" = '', "RW" = '', "Village" = '0', "District" = '0', "City" = '0', "Provinces" = '0', "PosCode" = '', "Phone" = '', "Handpone" = 'SELECT * 	FROM &quot;promo&quot;.&quot;msPro', "Email" = '', "Sex" = '2', "Married" = '0', "ModifiedBy" = 'Z028', "ModifiedDate" = '2021-09-19 16:14:13', "LastUpdate" = '2021-09-19 16:14:13', "Barcode" = '', "FullName" = 'wulandari', "isMerchantPartner" = '0', "instagram" = '', "facebook" = '', "memberFrom" = '', "MerchantPartnerCode" = '', "MemberCodeMerchantPartner" = ''
+WHERE "MemberCode" = '21023265843'
+ERROR - 2021-09-19 16:22:18 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;Points_pkey&quot;
+DETAIL:  Key (&quot;IdRec&quot;)=(2164229) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2021-09-19 16:22:18 --> Query error: ERROR:  duplicate key value violates unique constraint "Points_pkey"
+DETAIL:  Key ("IdRec")=(2164229) already exists. - Invalid query: INSERT INTO "points"."Points" ("TransNumRef", "StoreCode", "TransDate", "CreateBy", "CreateTime", "MemberCode", "fidMemberCategory", "TransType", "Description", "Debit", "Credit", "LastUpdate", "PromoCode") VALUES ('Z045.AKIJ.0006', 'Z045', '2021-09-19', 'WS', '20210919 16:22:18', '10452162010', '02', '1', 'Transaksi Sales', '8', '0', '20210919 16:22:18', '1821001')

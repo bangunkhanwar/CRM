@@ -1,0 +1,45 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2020-04-28 00:37:53 --> Severity: Notice --> Undefined index: HTTP_HOST /home/elcorps/crm/adm/application/config/config.php 27
+ERROR - 2020-04-28 04:34:33 --> Severity: Notice --> Undefined index: HTTP_HOST /home/elcorps/crm/adm/application/config/config.php 27
+ERROR - 2020-04-28 10:25:37 --> Severity: Notice --> Undefined index: StatusColor /home/elcorps/crm/adm/application/modules/omnichannel/views/master/category/list.php 61
+ERROR - 2020-04-28 10:25:37 --> Severity: Notice --> Undefined index: StatusTrx /home/elcorps/crm/adm/application/modules/omnichannel/views/master/category/list.php 61
+ERROR - 2020-04-28 10:25:37 --> Severity: Notice --> Undefined index: StatusColor /home/elcorps/crm/adm/application/modules/omnichannel/views/master/category/list.php 61
+ERROR - 2020-04-28 10:25:37 --> Severity: Notice --> Undefined index: StatusTrx /home/elcorps/crm/adm/application/modules/omnichannel/views/master/category/list.php 61
+ERROR - 2020-04-28 10:25:37 --> Severity: Notice --> Undefined index: StatusColor /home/elcorps/crm/adm/application/modules/omnichannel/views/master/category/list.php 61
+ERROR - 2020-04-28 10:25:37 --> Severity: Notice --> Undefined index: StatusTrx /home/elcorps/crm/adm/application/modules/omnichannel/views/master/category/list.php 61
+ERROR - 2020-04-28 10:25:37 --> Severity: Notice --> Undefined index: StatusColor /home/elcorps/crm/adm/application/modules/omnichannel/views/master/category/list.php 61
+ERROR - 2020-04-28 10:25:37 --> Severity: Notice --> Undefined index: StatusTrx /home/elcorps/crm/adm/application/modules/omnichannel/views/master/category/list.php 61
+ERROR - 2020-04-28 10:25:37 --> Severity: Notice --> Undefined index: StatusColor /home/elcorps/crm/adm/application/modules/omnichannel/views/master/category/list.php 61
+ERROR - 2020-04-28 10:25:37 --> Severity: Notice --> Undefined index: StatusTrx /home/elcorps/crm/adm/application/modules/omnichannel/views/master/category/list.php 61
+ERROR - 2020-04-28 10:25:37 --> Severity: Notice --> Undefined index: StatusColor /home/elcorps/crm/adm/application/modules/omnichannel/views/master/category/list.php 61
+ERROR - 2020-04-28 10:25:37 --> Severity: Notice --> Undefined index: StatusTrx /home/elcorps/crm/adm/application/modules/omnichannel/views/master/category/list.php 61
+ERROR - 2020-04-28 10:25:37 --> Severity: Notice --> Undefined index: StatusColor /home/elcorps/crm/adm/application/modules/omnichannel/views/master/category/list.php 61
+ERROR - 2020-04-28 10:25:37 --> Severity: Notice --> Undefined index: StatusTrx /home/elcorps/crm/adm/application/modules/omnichannel/views/master/category/list.php 61
+ERROR - 2020-04-28 10:25:37 --> Severity: Notice --> Undefined index: StatusColor /home/elcorps/crm/adm/application/modules/omnichannel/views/master/category/list.php 61
+ERROR - 2020-04-28 10:25:37 --> Severity: Notice --> Undefined index: StatusTrx /home/elcorps/crm/adm/application/modules/omnichannel/views/master/category/list.php 61
+ERROR - 2020-04-28 10:25:37 --> Severity: Notice --> Undefined index: StatusColor /home/elcorps/crm/adm/application/modules/omnichannel/views/master/category/list.php 61
+ERROR - 2020-04-28 10:25:37 --> Severity: Notice --> Undefined index: StatusTrx /home/elcorps/crm/adm/application/modules/omnichannel/views/master/category/list.php 61
+ERROR - 2020-04-28 10:25:37 --> Severity: Notice --> Undefined index: StatusColor /home/elcorps/crm/adm/application/modules/omnichannel/views/master/category/list.php 61
+ERROR - 2020-04-28 10:25:37 --> Severity: Notice --> Undefined index: StatusTrx /home/elcorps/crm/adm/application/modules/omnichannel/views/master/category/list.php 61
+ERROR - 2020-04-28 10:25:45 --> Severity: Notice --> Undefined index: StatusColor /home/elcorps/crm/adm/application/modules/omnichannel/views/master/sku/list.php 61
+ERROR - 2020-04-28 10:25:45 --> Severity: Notice --> Undefined index: StatusTrx /home/elcorps/crm/adm/application/modules/omnichannel/views/master/sku/list.php 61
+ERROR - 2020-04-28 10:25:45 --> Severity: Notice --> Undefined index: StatusColor /home/elcorps/crm/adm/application/modules/omnichannel/views/master/sku/list.php 61
+ERROR - 2020-04-28 10:25:45 --> Severity: Notice --> Undefined index: StatusTrx /home/elcorps/crm/adm/application/modules/omnichannel/views/master/sku/list.php 61
+ERROR - 2020-04-28 10:25:45 --> Severity: Notice --> Undefined index: StatusColor /home/elcorps/crm/adm/application/modules/omnichannel/views/master/sku/list.php 61
+ERROR - 2020-04-28 10:25:45 --> Severity: Notice --> Undefined index: StatusTrx /home/elcorps/crm/adm/application/modules/omnichannel/views/master/sku/list.php 61
+ERROR - 2020-04-28 10:25:45 --> Severity: Notice --> Undefined index: StatusColor /home/elcorps/crm/adm/application/modules/omnichannel/views/master/sku/list.php 61
+ERROR - 2020-04-28 10:25:45 --> Severity: Notice --> Undefined index: StatusTrx /home/elcorps/crm/adm/application/modules/omnichannel/views/master/sku/list.php 61
+ERROR - 2020-04-28 10:25:45 --> Severity: Notice --> Undefined index: StatusColor /home/elcorps/crm/adm/application/modules/omnichannel/views/master/sku/list.php 61
+ERROR - 2020-04-28 10:25:45 --> Severity: Notice --> Undefined index: StatusTrx /home/elcorps/crm/adm/application/modules/omnichannel/views/master/sku/list.php 61
+ERROR - 2020-04-28 10:25:45 --> Severity: Notice --> Undefined index: StatusColor /home/elcorps/crm/adm/application/modules/omnichannel/views/master/sku/list.php 61
+ERROR - 2020-04-28 10:25:45 --> Severity: Notice --> Undefined index: StatusTrx /home/elcorps/crm/adm/application/modules/omnichannel/views/master/sku/list.php 61
+ERROR - 2020-04-28 10:25:45 --> Severity: Notice --> Undefined index: StatusColor /home/elcorps/crm/adm/application/modules/omnichannel/views/master/sku/list.php 61
+ERROR - 2020-04-28 10:25:45 --> Severity: Notice --> Undefined index: StatusTrx /home/elcorps/crm/adm/application/modules/omnichannel/views/master/sku/list.php 61
+ERROR - 2020-04-28 10:25:45 --> Severity: Notice --> Undefined index: StatusColor /home/elcorps/crm/adm/application/modules/omnichannel/views/master/sku/list.php 61
+ERROR - 2020-04-28 10:25:45 --> Severity: Notice --> Undefined index: StatusTrx /home/elcorps/crm/adm/application/modules/omnichannel/views/master/sku/list.php 61
+ERROR - 2020-04-28 10:25:45 --> Severity: Notice --> Undefined index: StatusColor /home/elcorps/crm/adm/application/modules/omnichannel/views/master/sku/list.php 61
+ERROR - 2020-04-28 10:25:45 --> Severity: Notice --> Undefined index: StatusTrx /home/elcorps/crm/adm/application/modules/omnichannel/views/master/sku/list.php 61
+ERROR - 2020-04-28 10:25:45 --> Severity: Notice --> Undefined index: StatusColor /home/elcorps/crm/adm/application/modules/omnichannel/views/master/sku/list.php 61
+ERROR - 2020-04-28 10:25:45 --> Severity: Notice --> Undefined index: StatusTrx /home/elcorps/crm/adm/application/modules/omnichannel/views/master/sku/list.php 61
+ERROR - 2020-04-28 13:11:07 --> Severity: error --> Exception: Call to undefined method Customer_order_header_model::row_array() /home/elcorps/crm/adm/application/modules/omnichannel/controllers/Traffic.php 37

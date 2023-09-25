@@ -1,0 +1,42 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2022-01-02 03:01:15 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;Points_pkey&quot;
+DETAIL:  Key (&quot;IdRec&quot;)=(2270564) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2022-01-02 03:01:15 --> Query error: ERROR:  duplicate key value violates unique constraint "Points_pkey"
+DETAIL:  Key ("IdRec")=(2270564) already exists. - Invalid query: INSERT INTO "points"."Points" ("TransNumRef", "StoreCode", "TransDate", "CreateBy", "CreateTime", "MemberCode", "fidMemberCategory", "TransType", "Description", "Debit", "Credit", "LastUpdate", "PromoCode") VALUES ('Z708.ALA1.0007', 'Z708', '2022-01-01', 'WS', '20220102 03:01:15', '17082181732', '02', '1', 'Transaksi Sales', '122', '0', '20220102 03:01:15', '1821001')
+ERROR - 2022-01-02 09:11:49 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;Points_pkey&quot;
+DETAIL:  Key (&quot;IdRec&quot;)=(2271250) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2022-01-02 09:11:49 --> Query error: ERROR:  duplicate key value violates unique constraint "Points_pkey"
+DETAIL:  Key ("IdRec")=(2271250) already exists. - Invalid query: INSERT INTO "points"."Points" ("TransNumRef", "StoreCode", "TransDate", "CreateBy", "CreateTime", "MemberCode", "fidMemberCategory", "TransType", "Description", "Debit", "Credit", "LastUpdate", "PromoCode") VALUES ('Z033.ALA2.0001', 'Z033', '2022-01-02', 'WS', '20220102 09:11:49', '10332162518', '02', '1', 'Transaksi Sales', '4', '0', '20220102 09:11:49', '1821001')
+ERROR - 2022-01-02 09:38:22 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;Points_pkey&quot;
+DETAIL:  Key (&quot;IdRec&quot;)=(2271253) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2022-01-02 09:38:22 --> Query error: ERROR:  duplicate key value violates unique constraint "Points_pkey"
+DETAIL:  Key ("IdRec")=(2271253) already exists. - Invalid query: INSERT INTO "points"."Points" ("TransNumRef", "StoreCode", "TransDate", "CreateBy", "CreateTime", "MemberCode", "fidMemberCategory", "TransType", "Description", "Debit", "Credit", "LastUpdate", "PromoCode") VALUES ('Z808.ALA2.0001', 'Z808', '2022-01-02', 'WS', '20220102 09:38:22', '18082180800', '02', '1', 'Transaksi Sales', '14', '0', '20220102 09:38:22', '1821001')
+ERROR - 2022-01-02 10:11:50 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;Points_pkey&quot;
+DETAIL:  Key (&quot;IdRec&quot;)=(2271259) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2022-01-02 10:11:50 --> Query error: ERROR:  duplicate key value violates unique constraint "Points_pkey"
+DETAIL:  Key ("IdRec")=(2271259) already exists. - Invalid query: INSERT INTO "points"."Points" ("TransNumRef", "StoreCode", "TransDate", "CreateBy", "CreateTime", "MemberCode", "fidMemberCategory", "TransType", "Description", "Debit", "Credit", "LastUpdate", "PromoCode") VALUES ('Z033.ALA2.0004', 'Z033', '2022-01-02', 'WS', '20220102 10:11:50', '10142172369', '02', '1', 'Transaksi Sales', '22', '0', '20220102 10:11:50', '1821001')
+ERROR - 2022-01-02 11:16:44 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;Points_pkey&quot;
+DETAIL:  Key (&quot;IdRec&quot;)=(2271279) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2022-01-02 11:16:44 --> Query error: ERROR:  duplicate key value violates unique constraint "Points_pkey"
+DETAIL:  Key ("IdRec")=(2271279) already exists. - Invalid query: INSERT INTO "points"."Points" ("TransNumRef", "StoreCode", "TransDate", "CreateBy", "CreateTime", "MemberCode", "fidMemberCategory", "TransType", "Description", "Debit", "Credit", "LastUpdate", "PromoCode") VALUES ('Z770.ALA2.0002', 'Z770', '2022-01-02', 'WS', '20220102 11:16:44', '17702160739', '02', '1', 'Transaksi Sales', '4', '0', '20220102 11:16:44', '1821001')
+ERROR - 2022-01-02 11:37:31 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;Points_pkey&quot;
+DETAIL:  Key (&quot;IdRec&quot;)=(2271286) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2022-01-02 11:37:31 --> Query error: ERROR:  duplicate key value violates unique constraint "Points_pkey"
+DETAIL:  Key ("IdRec")=(2271286) already exists. - Invalid query: INSERT INTO "points"."Points" ("TransNumRef", "StoreCode", "TransDate", "CreateBy", "CreateTime", "MemberCode", "fidMemberCategory", "TransType", "Description", "Debit", "Credit", "LastUpdate", "PromoCode") VALUES ('Z010.ALA2.0019', 'Z010', '2022-01-02', 'WS', '20220102 11:37:31', '201012608', '02', '1', 'Transaksi Sales', '42', '0', '20220102 11:37:31', '1821001')
+ERROR - 2022-01-02 15:19:07 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;Points_pkey&quot;
+DETAIL:  Key (&quot;IdRec&quot;)=(2271411) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2022-01-02 15:19:07 --> Query error: ERROR:  duplicate key value violates unique constraint "Points_pkey"
+DETAIL:  Key ("IdRec")=(2271411) already exists. - Invalid query: INSERT INTO "points"."Points" ("TransNumRef", "StoreCode", "TransDate", "CreateBy", "CreateTime", "MemberCode", "fidMemberCategory", "TransType", "Description", "Debit", "Credit", "LastUpdate", "PromoCode") VALUES ('D132.ALA2.0010', 'D132', '2022-01-02', 'WS', '20220102 15:19:07', '10392172299', '02', '1', 'Transaksi Sales', '76', '0', '20220102 15:19:07', '1821001')
+ERROR - 2022-01-02 15:40:09 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;Points_pkey&quot;
+DETAIL:  Key (&quot;IdRec&quot;)=(2271422) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2022-01-02 15:40:09 --> Query error: ERROR:  duplicate key value violates unique constraint "Points_pkey"
+DETAIL:  Key ("IdRec")=(2271422) already exists. - Invalid query: INSERT INTO "points"."Points" ("TransNumRef", "StoreCode", "TransDate", "CreateBy", "CreateTime", "MemberCode", "fidMemberCategory", "TransType", "Description", "Debit", "Credit", "LastUpdate", "PromoCode") VALUES ('D126.ALA2.0007', 'D126', '2022-01-02', 'WS', '20220102 15:40:09', '21023207463', '02', '1', 'Transaksi Sales', '24', '0', '20220102 15:40:09', '1821001')
+ERROR - 2022-01-02 15:52:59 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;Points_pkey&quot;
+DETAIL:  Key (&quot;IdRec&quot;)=(2271426) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2022-01-02 15:52:59 --> Query error: ERROR:  duplicate key value violates unique constraint "Points_pkey"
+DETAIL:  Key ("IdRec")=(2271426) already exists. - Invalid query: INSERT INTO "points"."Points" ("TransNumRef", "StoreCode", "TransDate", "CreateBy", "CreateTime", "MemberCode", "fidMemberCategory", "TransType", "Description", "Debit", "Credit", "LastUpdate", "PromoCode") VALUES ('Z722.ALA2.0012', 'Z722', '2022-01-02', 'WS', '20220102 15:52:59', '272211689', '02', '1', 'Transaksi Sales', '48', '0', '20220102 15:52:59', '1821001')
+ERROR - 2022-01-02 19:25:57 --> Severity: Warning --> pg_query(): Query failed: ERROR:  duplicate key value violates unique constraint &quot;Points_pkey&quot;
+DETAIL:  Key (&quot;IdRec&quot;)=(2271565) already exists. /home/elcorps/crm/ws/system/database/drivers/postgre/postgre_driver.php 242
+ERROR - 2022-01-02 19:25:57 --> Query error: ERROR:  duplicate key value violates unique constraint "Points_pkey"
+DETAIL:  Key ("IdRec")=(2271565) already exists. - Invalid query: INSERT INTO "points"."Points" ("TransNumRef", "StoreCode", "TransDate", "CreateBy", "CreateTime", "MemberCode", "fidMemberCategory", "TransType", "Description", "Debit", "Credit", "LastUpdate", "PromoCode") VALUES ('Z714.ALA2.0024', 'Z714', '2022-01-02', 'WS', '20220102 19:25:57', '10072160086', '02', '1', 'Transaksi Sales', '20', '0', '20220102 19:25:57', '1821001')
