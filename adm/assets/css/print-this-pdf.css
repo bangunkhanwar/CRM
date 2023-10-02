@@ -1,0 +1,60 @@
+@media print {
+  @page {
+    /* size: 2.5cm 5.5cm; */
+        margin: 0px 10px 0px 10px !important;
+        size: portrait;
+  }
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9pt;
+}
+
+.top-border {
+  border-top: 1px solid black;
+  font-size: 10px;
+}
+
+
+.bottom-border {
+  border-top: 1px solid grey;
+  font-size: 10pt;
+  text-align: center;
+}
+
+.image-title {
+    width: 40px;
+}
+
+.title {
+  font-size: 15px;
+  font-weight: bold;
+  text-align:center;
+
+}
+
+.sub-title {
+  font-size: 11px;
+  font-weight: normal;
+  text-align: left;
+}
+
+
+.text-normal {
+    font-size: 10px;
+    font-weight: normal;
+}
+
+.text-bold {
+    font-size: 53px;
+    font-weight: bold;
+}
+
+.right{
+    float:right;
+}
+
+.left{
+    float:left;
+}

@@ -10,6 +10,19 @@ $(document).ready(function () {
 	<?php
 	}
 	?>
+
+// $( ".inputqty" ).focusout( function(e) {    
+// 		}).focusin(function(e){
+// 			$(this).select();
+// 		}).keydown( function(e) {
+// 			if(e.which == 13) {
+// 			var id =$(this).attr('id'); 
+// 			var rpoint =$(this).attr('max'); 	
+// 			var gdesc =$(this).attr('name'); 	
+// 			submit_redeem_point(id,rpoint,gdesc);		 
+// 			}
+// 		});
+
 }); 
 
 function select_lookup_member()
@@ -101,7 +114,83 @@ function update_member_card()
 	);
 }
 
+function submit_redeem_point(id,rpoint,gdesc)
+{
+	member = $('#member_code').val();
+	name = $('#full_name').val();
+	qtypoint = $('#total_point').val();
+	qtyredeem = $('#'+id).val(); 
+	// console.log(qtyredeem);
+	totalredeem = qtyredeem * rpoint ;
+	if (totalredeem > qtypoint)
+	{
+		swal('Penukaran Point Gagal !', 'Point tidak cukup untuk ditukar dengan reward tersebut', "error");
+	} else {
+		
+		showProgres();
+				swal({
+				title: "Confirmation",
+				text: "Point sejumlah " +totalredeem+" akan ditukar dengan reward " +qtyredeem+" "+gdesc+" ?",
+				icon: "warning",
+				buttons: ["No", "Yes"],				
+			 }).then((value) => {
+					hideProgres();
+					if (value === false) return false ;
+					if (value) {
+						showProgres();
+						$.post(site_url+"membership/redeem/redeem_point/"
+							,{ member : member,
+							   name : name,
+							   id : id,
+							   qty : qtyredeem,
+							   total : totalredeem }
+							,function(result) {
+								if(result['error'])
+								{	
+									swal(result['header']||'error', result['error']||'', "error");
+								}else
+								{
+									swal(result['header']||'success', result['success']||'', "success").then((value) => {
+										// window.location = site_url+'membership/redeem/main/'+result['id'];
+										console.log(result['member']);
+										printRedeem(result['refnum']);
+										select_lookup_member();
+									});;
+								}
+								hideProgres();
+							}					
+							,"json"
+						);
+						return false;
+					};
+				});
+	}
+}
+
+function printRedeem(id="") {
+        $.ajax({
+            url: site_url + "membership/redeem/print_doc_pdf/",
+            type: 'POST',
+            dataType: 'html',
+            data: {
+               id : id
+            },
+            success: function(result) {
+            $('#print-content-redeem').html(result);
+                    $('#print-content-redeem').printThis({
+                        importCSS: false,
+                        importStyle: false,
+                        canvas: true,
+                        copyTagClasses: false,    // copy classes from the html & body tag
+                        loadCSS: ["<?=base_url()?>assets/css/print-this-pdf.css"],
+                    });    
+            }
+        });
+    }
+
 </script>
+<script type="text/javascript" src="<?=base_url('assets/js/printThis.js')?>"></script>
+
 <div class="col-md-12">
               <div class="card">
                 <div class="card-header">
@@ -201,20 +290,107 @@ function update_member_card()
 						  </div>
 						</div>
 						<br>
-						<div class="form-group row" id="detail_redeem" style="display:none">
-							<div class="table-responsive">
-								<table class="table table-striped">
-									<tr>
-										<td rowspan="2">a</td>
-										<td colspan="2">b</td>
-									</tr>
-									<tr>
-										<td rowspan="2">c</td>
-										<td rowspan="2">d</td>
-									</tr>
-								</table>	
-							</div>
+			
+					<div class="card-content" id="detail_redeem" style="display:none">
+						<div class="card-body">
+								<ul class="nav nav-tabs nav-top-border no-hover-bg">
+								<li class="nav-item">
+									<a class="nav-link active" id="baseIcon-tab11" data-toggle="tab" aria-controls="tabIcon11" href="#tabRedeem" aria-expanded="true"><i class="la la-flag"></i> Redeem Point</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" id="baseIcon-tab12" data-toggle="tab" aria-controls="tabIcon12" href="#tabHistory" aria-expanded="false"><i class="la la-history"></i> History</a>
+								</li>
+								</ul>
+								<div class="tab-content px-1 pt-1">
+									<div role="tabpanel" class="tab-pane active" id="tabRedeem" aria-expanded="true" aria-labelledby="baseIcon-tab11">		
+										
+										<!-- <div class="form-group row" > -->
+											<div class="table-responsive">
+												<table class="table" id="tbl_reward">
+													<thead>
+														<tr>
+															<th rowspan="2" width="1%" style="text-align:center; vertical-align:middle;">No</th>
+															<th colspan="2" style="text-align:center; vertical-align:middle;">Reward</th>
+															<th rowspan="2" style="text-align:center; vertical-align:middle;">Redeem</th>
+														</tr>
+														<tr>
+															<th style="text-align:left;">Description</th>
+															<th style="text-align:right;">Point</th>
+														</tr>
+													</thead>
+													<tbody>
+														<?php 
+														$no = 0 ;
+														foreach($gift->result_array() as $row) { 
+														$no++
+														?>
+															<tr>
+																<th scope="row"><?=$no?></th>
+																<td><?=$row['GiftDescription']?></td>
+																<td style="text-align:right"><?=number_format($row['PointQuantity'],0,".",",")?></td>
+																<td>
+																	<div class="form-group row">
+																		<div class="col-md-2"></div>
+																		<div class="col-md-1">
+																			<input type="number" class="form-control inputqty" placeholder="Total Reward" id="<?= $row['GiftId']?>" name="<?= $row['GiftDescription']?>" max="<?= $row['PointQuantity']?>" value="1" hidden>
+																		</div>
+																		<div class="col-md-6">
+																			<button type="button" class="btn btn-info btn-block btn-glow" onClick="submit_redeem_point(<?= $row['GiftId']?>,<?=$row['PointQuantity']?>,'<?= $row['GiftDescription']?>')"><i class="la la-bookmark"></i> Redeem </button>
+																		</div>
+																		<div class="col-md-3"></div>
+																	</div>
+																</td>
+															</tr>
+														<?php }?>
+													</tbody>								
+												</table>
+											</div>
+											<!-- <label style="color: red;">  **  <i><b>Total Reward</b> di isi dengan <b>jumlah reward</b> yang ingin di tukar <b>bukan jumlah point</b></i> </label>	 -->
+										<!-- </div> -->
+									</div>	
+									<div class="tab-pane" id="tabHistory" aria-labelledby="baseIcon-tab12">
+
+										<div class="table-responsive">
+											<table class="table" id="tbl_reward">
+												<thead>
+													<tr>
+														<th width="1%" style="text-align:left; vertical-align:middle;">No</th>
+														<th style="text-align:left; vertical-align:middle;">Trans Date</th>
+														<th style="text-align:left; vertical-align:middle;">Description</th>
+														<th style="text-align:left; vertical-align:middle;">Gift</th>
+														<th style="text-align:left; vertical-align:middle;">Gift Ref Number</th>
+														<th style="text-align:right; vertical-align:middle;">Point Redeem</th>
+														<th style="text-align:center; vertical-align:middle;">Action</th>
+													</tr>
+												</thead>
+												<tbody>
+													<?php 
+													$hno = 0 ;
+													foreach($history->result_array() as $row_h) { 
+													$hno++
+													?>
+														<tr>
+															<th scope="row"><?=$hno?></th>
+															<td><?=humanize_mdate($row_h['TransDate'])?></td>
+															<td><?=$row_h['Description']?></td>
+															<td><?=$row_h['GiftDescription']?></td>
+															<td><?=$row_h['GiftRefNum']?></td>
+															<td style="text-align:right"><?=number_format($row_h['JumlahPoint'],0,".",",")?></td>
+															<td>
+																<button type="button" class="btn btn-warning btn-block btn-glow" onClick="printRedeem('<?=$row_h['RefNum']?>')"><i class="la la-print"></i> Reprint&nbsp; </button>
+															</td>
+														</tr>
+													<?php }?>
+												</tbody>								
+											</table>
+										</div>
+
+									</div>
+								</div>
+							
 						</div>
+					</div>
+
 					<!-- <div class="form-group row" id="memo_remark" style="display:none">
 						  <label class="col-md-3 label-control" for="">Keterangan</label>
 						  <div class="col-md-5">
@@ -236,3 +412,7 @@ function update_member_card()
                 </div>
               </div>
             </div>
+
+<div style="display:none">
+	<div id="print-content-redeem"></div>
+</div>

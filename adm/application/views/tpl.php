@@ -98,6 +98,9 @@
   <script type="text/javascript" src="<?= base_url();?>app-assets/js/scripts/charts/c3/bar-pie/stacked-bar.js"></script>
   <script type="text/javascript" src="<?= base_url();?>app-assets/js/scripts/charts/c3/bar-pie/stacked-column.js"></script>
   <script type="text/javascript" src="<?= base_url();?>assets/js/upclick.js"></script>
+
+  <!-- Print This -->
+  <script src="<?=base_url()?>assets/js/printThis.js"></script>
   
   
   <script src="<?= base_url();?>app-assets/vendors/js/forms/toggle/bootstrap-switch.min.js"
