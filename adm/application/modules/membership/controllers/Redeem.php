@@ -228,7 +228,7 @@ class Redeem extends MY_Controller {
 		$where_history = array();
 		$where_history['MemberCode'] = $membercode;
 		$this->member_history_model->set_where($where_history);
-		$this->member_history_model->set_order(array('TransDate'=>'Desc'));
+		$this->member_history_model->set_order(array('LastUpdate'=>'Desc'));
 		$history = $this->member_history_model->get_list();
 
 		$data = array(
