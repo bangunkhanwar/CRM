@@ -27,16 +27,16 @@ class Redeem extends MY_Controller {
 		$this->bc->add('Redeem', base_url('membership/redeem'));
 		$this->bc->set_title('Redeem');
 
-		$gift = $this->point_gift_redeemption_model->get_list(array('isActive' => 1));
-		$this->member_history_model->set_order(array('TransDate'=>'Desc'));
-		$history = $this->member_history_model->get_list(array('MemberCode' => $member_code));
-		
+		$where_gift = array();
+		$where_gift['isActive'] = 1;
+		$this->point_gift_redeemption_model->set_where($where_gift);
+		$gift = $this->point_gift_redeemption_model->get_list();
+				
 		 $data = array(
 		 'content' => 'redeem/main'
 		 ,'member_code' => $member_code
 		 ,'title' => 'Redeem Points'
 		 ,'gift' => $gift
-		 ,'history' => $history
 		 );
 		 $this->load->view('tpl',$data);
 	}
@@ -220,6 +220,23 @@ class Redeem extends MY_Controller {
 		);
 
 		$this->load->view($data['content'],$data); 
+	}
+
+	function getHistory()
+	{
+		$membercode = $this->input->post('member');
+		$where_history = array();
+		$where_history['MemberCode'] = $membercode;
+		$this->member_history_model->set_where($where_history);
+		$this->member_history_model->set_order(array('TransDate'=>'Desc'));
+		$history = $this->member_history_model->get_list();
+
+		$data = array(
+			 'content' 		=> 'redeem/history_list'
+			,'history' 		=> $history
+			,'member_code' 	=> $membercode
+		);
+		$this->load->view($data['content'],$data);
 	}
 
 }
