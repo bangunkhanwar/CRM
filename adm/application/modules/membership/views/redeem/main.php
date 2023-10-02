@@ -153,7 +153,7 @@ function submit_redeem_point(id,rpoint,gdesc)
 									swal(result['header']||'success', result['success']||'', "success").then((value) => {
 										// window.location = site_url+'membership/redeem/main/'+result['id'];
 										console.log(result['member']);
-										printRedeem(result['refnum']);
+										printRedeem(result['refnum'],'');
 										select_lookup_member();
 									});;
 								}
@@ -167,13 +167,14 @@ function submit_redeem_point(id,rpoint,gdesc)
 	}
 }
 
-function printRedeem(id="") {
+function printRedeem(id="",status="") {
         $.ajax({
             url: site_url + "membership/redeem/print_doc_pdf/",
             type: 'POST',
             dataType: 'html',
             data: {
-               id : id
+               id : id,
+			   status : status
             },
             success: function(result) {
             $('#print-content-redeem').html(result);
@@ -377,7 +378,7 @@ function printRedeem(id="") {
 															<td><?=$row_h['GiftRefNum']?></td>
 															<td style="text-align:right"><?=number_format($row_h['JumlahPoint'],0,".",",")?></td>
 															<td>
-																<button type="button" class="btn btn-warning btn-block btn-glow" onClick="printRedeem('<?=$row_h['RefNum']?>')"><i class="la la-print"></i> Reprint&nbsp; </button>
+																<button type="button" class="btn btn-warning btn-block btn-glow" onClick="printRedeem('<?=$row_h['RefNum']?>','REPRINT')"><i class="la la-print"></i> Reprint&nbsp; </button>
 															</td>
 														</tr>
 													<?php }?>

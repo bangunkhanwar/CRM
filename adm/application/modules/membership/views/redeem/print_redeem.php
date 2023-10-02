@@ -2,8 +2,10 @@
 	<table class="table">
 		<tbody>
 			<tr>
-				<td colspan="3" class="title">Bukti Penukaran Point</td>
-				
+				<td colspan="3" class="title"><?=$reprint?></td>				
+			</tr>
+			<tr>
+				<td colspan="3" class="title">Bukti Penukaran Point</td>				
 			</tr>
 			<br/>
 			<tr>
@@ -44,7 +46,7 @@
 				<td colspan="3" class="title"></td>		
             </tr>    		
             <tr>
-                <td colspan="3" class="sub-title">Anda telah menukarkan point sebanyak <?=$history['JumlahPoint']?> dengan <?=$history['GiftDescription']?></td>				
+                <td colspan="3" class="sub-title">Anda telah menukarkan point sebanyak <?=$history['JumlahPoint']?> dengan <?=$history['GiftDescription']?> , berlaku sampai dengan <?=humanize_mdate($history['ExpiryDate'])?>.</td>				
             </tr>	
             <tr>
 				<td colspan="3" class="title"></td>		

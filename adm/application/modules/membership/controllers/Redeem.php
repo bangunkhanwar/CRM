@@ -105,7 +105,7 @@ class Redeem extends MY_Controller {
 		$data_voucher['LastUpdate'] =date('Ymd H:i:s');
 		$data_voucher['Remark'] = 'PROGRAM PENUKARAN POINT';
 		$data_voucher['Description'] = 'ONLINE GIFT VOUCHER';
-		$data_voucher['ExpiryDate'] = '2024-12-31';
+		$data_voucher['ExpiryDate'] = date('Y-m-d', strtotime('+30 days') );
 		$sv_voucher=$this->voucher_beon_model->save($data_voucher);
 
 		// 1. insert member history
@@ -126,6 +126,7 @@ class Redeem extends MY_Controller {
 		// $data_history['CreatedBy'] = $this->session->userdata('idMsOperator');
 		$data_history['CreatedBy'] = $this->session->userdata('FullName');
 		$data_history['JumlahPoint'] = $totalpoint;
+		$data_history['ExpiryDate'] = date('Y-m-d', strtotime('+30 days') );
 		$sv_voucher=$this->member_history_model->save($data_history);
 
 		// -1. insert ke trpo beon
@@ -207,13 +208,15 @@ class Redeem extends MY_Controller {
 	function print_doc_pdf()
 	{
 		$id = $this->input->post('id');
+		$status = $this->input->post('status');
 		$history = $this->member_history_model->get(array('RefNum' => $id));
 		$pointdata = $this->member_points_currently_model->get(array('MemberCode' => $history['MemberCode']));
 
 		$data = array(
 			'content' 			=> 'redeem/print_redeem', 
 			'history'			=> $history,
-			'point'				=> $pointdata
+			'point'				=> $pointdata,
+			'reprint'			=> $status
 		);
 
 		$this->load->view($data['content'],$data); 
