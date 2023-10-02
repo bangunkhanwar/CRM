@@ -326,7 +326,7 @@ function loadHistory(member)
 														<tr>
 															<th rowspan="2" width="1%" style="text-align:center; vertical-align:middle;">No</th>
 															<th colspan="2" style="text-align:center; vertical-align:middle;">Reward</th>
-															<th rowspan="2" style="text-align:center; vertical-align:middle;">Redeem</th>
+															<th rowspan="2" style="text-align:center; vertical-align:middle;">Action</th>
 														</tr>
 														<tr>
 															<th style="text-align:left;">Description</th>
