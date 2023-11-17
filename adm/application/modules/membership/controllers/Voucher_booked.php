@@ -110,7 +110,7 @@ class Voucher_booked extends MY_Controller {
 				$data['UniqueCode'] = $row['UniqueCode'];
 
 				$this->voucher_booked_model->save($data);
-				$this->voucher_beon_model->save(array('VoucherID'=> $data['VoucherId'], 'Note' => $id ));
+				$this->voucher_beon_model->save(array('VoucherID'=> $data['VoucherId'], 'Note' => $id, 'StoreCodeRedeem' => $store));
 			}
 		}
 			
