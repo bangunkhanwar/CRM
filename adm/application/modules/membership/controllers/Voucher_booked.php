@@ -55,7 +55,8 @@ class Voucher_booked extends MY_Controller {
 
 		$where = array();
 		$where['TransNum'] = $id;
-		$vbooked = $this->voucher_booked_model->get_list($where);
+		$this->voucher_booked_model->set_where($where);
+		$vbooked = $this->voucher_booked_model->get_list();
 		$storedata = $this->store_beon_model->get(array('StoreCode' => $store)); 
 
 		$data = array(
@@ -72,6 +73,7 @@ class Voucher_booked extends MY_Controller {
 		$id	= $this->input->post('id');
 		$store = substr($id,0,4);
 		$idlenght = strlen((string)$id);
+		$idcusttype = $this->input->post('idcusttype');
 
 		$storedata = $this->store_beon_model->get(array('StoreCode' => $store));    
 
@@ -92,7 +94,13 @@ class Voucher_booked extends MY_Controller {
 
 			$wherevoucher = array();
 			$wherevoucher['fidVoucherStatus'] = 4;
-			$wherevoucher['Remark'] = 'GENVCRAGEN';
+			if ($idcusttype == '03') 
+			{
+				$wherevoucher['Remark'] = 'GENVCRAGEN';
+			} elseif ($idcusttype == '02')
+			{
+				$wherevoucher['Remark'] = 'GENVCRMEMBER';
+			}
 			$wherevoucher['Note is null '] = null;
 
 			$this->voucher_beon_model->set_where($wherevoucher);

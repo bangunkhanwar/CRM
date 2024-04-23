@@ -14,8 +14,62 @@
         </div>
         <div class="card-content collapse show">
             <div class="card-body">		
+
                 <div class="form-group row">
-                    <label class="col-md-3 label-control" for="member_code">Trans Number</label>
+                    <label class="col-md-3 label-control" for="member_code">Search Member</label>
+                    <div class="col-md-5">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                <i class="la la-key"></i></span>
+                            </div>
+                            <input type="text" id="search_key" class="form-control" placeholder="Member Code / Phone / E-mail" name="t_search_key" onkeydown="if(event.keyCode == 13)select_lookup_member()" value="">
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-primary loading-button " onClick="select_lookup_member();"><i class="la la-search"></i></button>
+                            </div>
+                        </div> 
+                    </div>
+                </div>	
+                <div class="form-group row">
+                    <label class="col-md-3 label-control" for="member_code">Member Code</label>
+                    <div class="col-md-5">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                            <i class="la la-keyboard-o"></i></span>
+                        </div>
+                        <input readonly type="text" id="member_code" class="form-control" placeholder="Member Code" name="t_member_code" value="">
+                        <input hidden type="text" id="cust_type" class="form-control" placeholder="Member Code" name="t_cust_type">
+                    </div> 
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 label-control" for="full_name">Full Name</label>
+                    <div class="col-md-5">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                            <i class="la la-user"></i></span>
+                        </div>
+                        <input readonly type="text" id="full_name" class="form-control" placeholder="Full Name" name="t_full_name"> 
+                    </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-3 label-control" for="phone_number">Phone Number</label>
+                    <div class="col-md-5">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                            <i class="la la-mobile"></i></span>
+                        </div>
+                        <input readonly type="text" id="phone_number" class="form-control" placeholder="Phone Number" name="t_phone_number"> 
+                    </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-3 label-control" for="trans_num">Trans Number</label>                    
                     <div class="col-md-5">
                         <div class="input-group">
                             <div class="input-group-prepend">
@@ -99,7 +153,15 @@ $(document).ready(function () {
     function getVoucher()
     {
         var id = $('#trx_num').val();            
-        var trxnum = id.toUpperCase();            
+        var trxnum = id.toUpperCase();     
+        var idcusttype = $('#cust_type').val();   
+
+        if(idcusttype=='')
+        {
+            swal('Failed', 'Silahkan masukan identitas customer terlebih dahulu !', "error");
+            $('#search_key').focus();
+            return false;
+        }   
         showProgres();
                 swal({
                 title: "Confirmation",
@@ -112,7 +174,7 @@ $(document).ready(function () {
                     if (value) {
                         showProgres();
                         $.post(site_url+"membership/voucher_booked/checkVoucherBooked/"
-                            ,{ id : trxnum }
+                            ,{ id : trxnum , idcusttype : idcusttype}
                             ,function(result) {
                                 if(result['error'])
                                 {	
@@ -133,5 +195,41 @@ $(document).ready(function () {
                 });
         
     }
+
+
+    function select_lookup_member()
+    {
+        member_code = $('#search_key').val();
+        // toggle_card_input(0);
+        if(member_code=='')
+        {
+            swal('Failed', 'Please input valid Key', "error");
+            $('#search_key').focus();
+            return false;
+        }
+        showProgres();
+        $.post(site_url+"membership/redeem/lookup_member/"
+            ,{t_search_key:member_code}
+            ,function(result) {
+                if(result['error'])
+                {
+                    hideProgres();
+                    swal(result['header']||'error', result['error']||'', "error");
+                }else
+                {
+                    // toggle_card_input(1);
+                    hideProgres();
+                    // swal(result['header']||'success', result['success']||'', "success").then((value) => {
+                    // });;
+                    $('#member_code').val(result['member']['MemberCode']);
+                    $('#full_name').val(result['member']['Name']);
+                    $('#phone_number').val(result['member']['Handpone']);
+                    $('#cust_type').val(result['member']['fidMemberCategory']);
+                }
+                hideProgres();
+            }					
+            ,"json"
+        );
+}
 
 </script>
