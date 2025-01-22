@@ -154,7 +154,7 @@ function submit_redeem_point(id,rpoint,gdesc)
 									swal(result['header']||'success', result['success']||'', "success").then((value) => {
 										// window.location = site_url+'membership/redeem/main/'+result['id'];
 										console.log(result['member']);
-										printRedeem(result['refnum'],'');
+										printRedeem(result['refnum'],'',result['member']);
 										select_lookup_member();
 									});;
 								}
@@ -168,13 +168,14 @@ function submit_redeem_point(id,rpoint,gdesc)
 	}
 }
 
-function printRedeem(id="",status="") {
+function printRedeem(id="",status="",member="") {
         $.ajax({
             url: site_url + "membership/redeem/print_doc_pdf/",
             type: 'POST',
             dataType: 'html',
             data: {
                id : id,
+               member : member,
 			   status : status
             },
             success: function(result) {

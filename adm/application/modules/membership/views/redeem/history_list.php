@@ -25,7 +25,7 @@
                     <td><?=$row_h['GiftRefNum']?></td>
                     <td style="text-align:right"><?=number_format($row_h['JumlahPoint'],0,".",",")?></td>
                     <td>
-                        <button type="button" class="btn btn-warning btn-block btn-glow" onClick="printRedeem('<?=$row_h['RefNum']?>','REPRINT')"><i class="la la-print"></i> Reprint&nbsp; </button>
+                        <button type="button" class="btn btn-warning btn-block btn-glow" onClick="printRedeem('<?=$row_h['RefNum']?>','REPRINT','<?=$row_h['MemberCode']?>')"><i class="la la-print"></i> Reprint&nbsp; </button>
                     </td>
                 </tr>
             <?php }?>

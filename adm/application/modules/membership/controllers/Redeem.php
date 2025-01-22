@@ -82,12 +82,14 @@ class Redeem extends MY_Controller {
 
 		$gift = $this->point_gift_redeemption_model->get(array("GiftId" => $id));
 		$id_amount = $gift['fidAmount'];
+		$id_urut_voucher = $gift['idRec'];
 		
 
 		$this->db->trans_start();
 		
 		// 0. generate nomor voucher online gift voucher dan insert to beon
-		$prev_voucher = '4'.date('y'). $id_amount;
+		// $prev_voucher = '4'.date('y'). $id_amount;
+		$prev_voucher = '4'.date('y'). $id_urut_voucher;
 		$voucher_number= $this->voucher_beon_model->gen_voucher_number($prev_voucher);
 
 		$data_voucher = array();
@@ -208,8 +210,9 @@ class Redeem extends MY_Controller {
 	function print_doc_pdf()
 	{
 		$id = $this->input->post('id');
+		$member = $this->input->post('member');
 		$status = $this->input->post('status');
-		$history = $this->member_history_model->get(array('RefNum' => $id));
+		$history = $this->member_history_model->get(array('RefNum' => $id,'MemberCode' => $member));
 		$pointdata = $this->member_points_currently_model->get(array('MemberCode' => $history['MemberCode']));
 
 		$data = array(
