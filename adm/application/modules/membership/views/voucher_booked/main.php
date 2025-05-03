@@ -69,6 +69,19 @@
                 </div>
 
                 <div class="form-group row">
+                    <label class="col-md-3 label-control" for="promo_code">Promo Code</label>
+                    <div class="col-md-2">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                            <i class="la la-gift"></i></span>
+                        </div>
+                        <input type="text" id="promo_code" class="form-control" placeholder="Promo Code" name="t_promo_code"> 
+                    </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
                     <label class="col-md-3 label-control" for="trans_num">Trans Number</label>                    
                     <div class="col-md-5">
                         <div class="input-group">
@@ -155,10 +168,11 @@ $(document).ready(function () {
         var id = $('#trx_num').val();            
         var trxnum = id.toUpperCase();     
         var idcusttype = $('#cust_type').val();   
+        var promocode = $('#promo_code').val();   
 
-        if(idcusttype=='')
+        if((idcusttype=='') || (promocode==''))
         {
-            swal('Failed', 'Silahkan masukan identitas customer terlebih dahulu !', "error");
+            swal('Failed', 'Silahkan masukan identitas customer dan kode promo terlebih dahulu !', "error");
             $('#search_key').focus();
             return false;
         }   
@@ -174,7 +188,7 @@ $(document).ready(function () {
                     if (value) {
                         showProgres();
                         $.post(site_url+"membership/voucher_booked/checkVoucherBooked/"
-                            ,{ id : trxnum , idcusttype : idcusttype}
+                            ,{ id : trxnum , idcusttype : idcusttype, promocode : promocode}
                             ,function(result) {
                                 if(result['error'])
                                 {	
