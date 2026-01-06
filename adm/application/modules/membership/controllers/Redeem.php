@@ -135,6 +135,7 @@ class Redeem extends MY_Controller {
 		// -1. insert ke trpodetail beon
 
 		// 3. insert ke trpoint beon
+		/* command karena koneksi berat
 		$data_pointb = array();
 		$data_pointb['TransNum'] =  $ref_number;
 		$data_pointb['TransNumRef'] = $ref_number;
@@ -150,6 +151,7 @@ class Redeem extends MY_Controller {
 		$data_pointb['Credit'] = $totalpoint;
 		$data_pointb['LastUpdate'] =date('Ymd H:i:s');
 		$sv_voucher=$this->point_beon_model->save($data_pointb);
+		*/
 
 		// 4. insert ke points crm
 		$data_pointc = array();

@@ -27,7 +27,9 @@
 		<div class="media-body w-100">
 			<h6 class="list-group-item-heading text-bold-500">
 				<?=match_key($row['MemberCode'],$key['MemberCode']);?>
-				&nbsp;<span class="badge badge-warning mr-1"><?=$row['TotalPoints']?:0?> Points</span>
+				<!-- hide dulu
+				&nbsp;<span class="badge badge-warning mr-1"></?=$row['TotalPoints']?:0?> Points</span>
+				sampai sini -->
 					<span class="float-right">
 					<span class="badge badge-<?=($row['isActive']==1)?'success':'danger'?> mr-1"><?=($row['isActive']==1)?'ACTIVE':'NON ACTIVE'?></span>
 					</span>

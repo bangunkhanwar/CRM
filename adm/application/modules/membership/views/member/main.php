@@ -122,7 +122,9 @@ function set_year(year)
 									  <option value="IdCardNumber">IdCardNumber</option>
 									  <option value="Name">Name</option>
 									  <option value="Address">Address</option>
+									  <!-- hide dulu
 									  <option value="TotalPoints">Points</option>
+									  sampai sini -->
 									  <option value="RegistrationDate" selected>Reg Date</option>
 								  </select>
 							  </div>
