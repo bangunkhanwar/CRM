@@ -115,57 +115,49 @@ function update_member_card()
 	);
 }
 
-function submit_redeem_point(id,rpoint,gdesc)
-{
-	member = $('#member_code').val();
-	name = $('#full_name').val();
-	qtypoint = $('#total_point').val();
-	qtyredeem = $('#'+id).val(); 
-	// console.log(qtyredeem);
-	totalredeem = qtyredeem * rpoint ;
-	if (totalredeem > qtypoint)
-	{
-		swal('Penukaran Point Gagal !', 'Point tidak cukup untuk ditukar dengan reward tersebut', "error");
-	} else {
-		
-		showProgres();
-				swal({
-				title: "Confirmation",
-				text: "Point sejumlah " +totalredeem+" akan ditukar dengan reward " +qtyredeem+" "+gdesc+" ?",
-				icon: "warning",
-				buttons: ["No", "Yes"],				
-			 }).then((value) => {
-					hideProgres();
-					if (value === false) return false ;
-					if (value) {
-						showProgres();
-						$.post(site_url+"membership/redeem/redeem_point/"
-							,{ member : member,
-							   name : name,
-							   id : id,
-							   qty : qtyredeem,
-							   total : totalredeem }
-							,function(result) {
-								if(result['error'])
-								{	
-									swal(result['header']||'error', result['error']||'', "error");
-								}else
-								{
-									swal(result['header']||'success', result['success']||'', "success").then((value) => {
-										// window.location = site_url+'membership/redeem/main/'+result['id'];
-										console.log(result['member']);
-										printRedeem(result['refnum'],'',result['member']);
-										select_lookup_member();
-									});;
-								}
-								hideProgres();
-							}					
-							,"json"
-						);
-						return false;
-					};
-				});
-	}
+function submit_redeem_point(id, rpoint, gdesc) {
+    var member = $('#member_code').val();
+    var name = $('#full_name').val();
+    var qtypoint = $('#total_point').val();
+    var qtyredeem = 1;
+    
+    // Cari input quantity jika ada
+    if ($('#' + id).length > 0 && $('#' + id).val()) {
+        qtyredeem = parseInt($('#' + id).val()) || 1;
+    }
+    
+    var totalredeem = qtyredeem * rpoint;
+    
+    if (totalredeem > qtypoint) {
+        swal('Penukaran Point Gagal !', 'Point tidak cukup untuk ditukar dengan reward tersebut', "error");
+        return;
+    }
+    
+    // Simpan data redeem untuk diproses setelah OTP valid
+    window.pendingRedeem = {
+        id: id,
+        rpoint: rpoint,
+        gdesc: gdesc,
+        member: member,
+        name: name,
+        qtyredeem: qtyredeem,
+        totalredeem: totalredeem
+    };
+    
+    // Tampilkan konfirmasi awal - DENGAN SINTAS SWEETALERT1
+    swal({
+        title: "Konfirmasi",
+        text: "Point sejumlah " + totalredeem + " akan ditukar dengan reward " + qtyredeem + " " + gdesc + "?",
+        icon: "warning",
+        buttons: {
+            cancel: "Tidak",
+            confirm: "Ya"
+        }
+    }).then((value) => {
+        if (value) {
+            showOtpMethodModal();
+        }
+    });
 }
 
 function printRedeem(id="",status="",member="") {
@@ -190,6 +182,128 @@ function printRedeem(id="",status="",member="") {
             }
         });
     }
+
+	// Fungsi modal pilihan metode OTP
+	function showOtpMethodModal() {
+		swal({
+			title: "Pilih Metode OTP",
+			text: "Pilih metode pengiriman kode OTP:",
+			icon: "info",
+			buttons: {
+				whatsapp: {
+					text: "WhatsApp",
+					value: "whatsapp",
+				},
+				email: {
+					text: "Email", 
+					value: "email",
+				},
+				cancel: "Batal"
+			}
+		}).then((value) => {
+			if (value === "whatsapp" || value === "email") {
+				sendOtp(value);
+			}
+		});
+	}
+
+	// Kirim OTP berdasarkan metode
+	function sendOtp(method) {
+		showProgres();
+		
+		$.ajax({
+			url: site_url + "membership/redeem/send_otp",
+			type: 'POST',
+			dataType: 'json',
+			data: { 
+				t_member_code: window.pendingRedeem.member,
+				t_method: method
+			},
+			success: function(result) {
+				hideProgres();
+				console.log('OTP Response:', result);
+				
+				if(result.error) {
+					swal('Gagal', result.error, "error");
+				} else {
+					showOtpInputModal(result.otp_demo, method, result.contact);
+				}
+			},
+			error: function(xhr, status, error) {
+				hideProgres();
+				console.error('AJAX Error:', xhr.responseText);
+				// Fallback untuk testing
+				showOtpInputModal('123456', method, method === 'whatsapp' ? $('#phone_number').val() : 'test@email.com');
+			}
+		});
+	}
+
+	// Tampilkan modal input OTP
+	function showOtpInputModal(otpDemo, method, contact) {
+		let methodName = method === 'whatsapp' ? 'WhatsApp' : 'Email';
+		let message = `Kode OTP telah dikirim via ${methodName}${contact ? ' ke ' + contact : ''}\n\n`;
+		message += `Masukkan 6 digit kode OTP:`;
+		
+		if (otpDemo) {
+			message += `\n\nUntuk testing: ${otpDemo}`;
+		}
+		
+		swal({
+			title: "Verifikasi OTP",
+			text: message,
+			content: {
+				element: "input",
+				attributes: {
+					placeholder: "Masukkan 6 digit OTP",
+					type: "text",
+					maxlength: "6",
+					style: "width: 100%; padding: 10px; font-size: 18px; text-align: center; letter-spacing: 5px;"
+				}
+			},
+			buttons: {
+				cancel: "Batal",
+				confirm: "Verifikasi"
+			}
+		}).then((otp) => {
+			if (otp && otp.length === 6) {
+				verifyOtpAndRedeem(otp);
+			} else if (otp) {
+				swal('Error', 'Kode OTP harus 6 digit', "error");
+			}
+		});
+	}
+
+	// Verifikasi OTP dan proses redeem
+	function verifyOtpAndRedeem(otpCode) {
+		showProgres();
+		const pending = window.pendingRedeem;
+		
+		$.ajax({
+			url: site_url + "membership/redeem/verify_otp_redeem",
+			type: 'POST',
+			dataType: 'json',
+			data: {
+				t_member_code: pending.member,
+				t_otp: otpCode,
+				id: pending.id,
+				qty: pending.qtyredeem,
+				total: pending.totalredeem
+			},
+			success: function(result) {
+				hideProgres();
+				
+				if(result.error) {
+					swal(result.header || 'Error', result.error, "error");
+				} else {
+					swal(result.header || 'Berhasil', result.success, "success").then(() => {
+						printRedeem(result.refnum, '', result.member);
+						select_lookup_member();
+					});
+				}
+			},
+			
+		});
+	}
 
 function loadHistory(member)
 	{

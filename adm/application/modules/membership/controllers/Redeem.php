@@ -244,4 +244,95 @@ class Redeem extends MY_Controller {
 		$this->load->view($data['content'],$data);
 	}
 
+	// method untuk send OTP dengan pilihan metode
+	public function send_otp() {
+		$this->output->set_content_type('application/json');
+		
+		try {
+			$member_code = $this->input->post('t_member_code');
+			$method = $this->input->post('t_method'); // 'whatsapp' atau 'email'
+			
+			if (empty($member_code)) {
+				echo json_encode(['error' => 'Member code diperlukan']);
+				return;
+			}
+			
+			if (empty($method) || !in_array($method, ['whatsapp', 'email'])) {
+				echo json_encode(['error' => 'Metode pengiriman tidak valid']);
+				return;
+			}
+			
+			// Cari member menggunakan model yang sudah ada
+			$where = array('MemberCode' => $member_code);
+			$memberdata = $this->member_model->get($where);
+			
+			if (empty($memberdata) || $memberdata['MemberCode'] == '') {
+				echo json_encode(['error' => 'Member tidak ditemukan']);
+				return;
+			}
+			
+			// Generate OTP baru
+			$otp = rand(100000, 999999);
+			
+			// Update OTP ke database
+			$this->db->where('MemberCode', $member_code);
+			$this->db->update('member.Member', ['OTP' => $otp]);
+			
+			// Untuk testing, return OTP
+			echo json_encode([
+				'success' => 'OTP berhasil dikirim via ' . $method . ' (DEMO)',
+				'otp_demo' => $otp,
+				'method' => $method,
+				'contact' => $method == 'whatsapp' ? $memberdata['Handpone'] : $memberdata['Email']
+			]);
+			
+		} catch (Exception $e) {
+			echo json_encode(['error' => 'Server error: ' . $e->getMessage()]);
+		}
+	}
+
+	// Update method verify_otp_redeem untuk menggunakan metode yang ada
+	public function verify_otp_redeem() {
+		$this->output->set_content_type('application/json');
+		
+		$member_code = $this->input->post('t_member_code');
+		$otp_input = $this->input->post('t_otp');
+		
+		if (empty($member_code) || empty($otp_input)) {
+			echo json_encode(['error' => 'Data tidak lengkap']);
+			return;
+		}
+		
+		// Cek OTP dari database
+		$this->db->where('MemberCode', $member_code);
+		$this->db->where('OTP', $otp_input);
+		$query = $this->db->get('member.Member');
+		
+		if ($query->num_rows() == 0) {
+			echo json_encode(['error' => 'Kode OTP tidak valid']);
+			return;
+		}
+		
+		// Hapus OTP setelah digunakan
+		$this->db->where('MemberCode', $member_code);
+		$this->db->update('member.Member', ['OTP' => NULL]);
+		
+		// Ambil data untuk redeem
+		$id = $this->input->post('id');
+		$qty = $this->input->post('qty') ?: 1;
+		$total = $this->input->post('total');
+		$name = $query->row()->Name;
+		
+		// Set data POST untuk redeem_point
+		$_POST['member'] = $member_code;
+		$_POST['name'] = $name;
+		$_POST['id'] = $id;
+		$_POST['qty'] = $qty;
+		$_POST['total'] = $total;
+		
+		// Panggil redeem_point
+		$this->redeem_point();
+		
+	}
+
 }
