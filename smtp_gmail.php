@@ -16,13 +16,13 @@ try {
     $mail->isSMTP();
     $mail->Host       = 'smtp.gmail.com';
     $mail->SMTPAuth   = true;
-    $mail->Username   = 'your_gmail@gmail.com'; // Ganti dengan email Anda
-    $mail->Password   = 'your_app_password';    // Gunakan App Password Gmail
+    $mail->Username   = 'elcorpsdev@gmail.com'; // Ganti dengan email Anda
+    $mail->Password   = 'rgjw nuiv imnc moqm';    // Gunakan App Password Gmail
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port       = 587;
 
     // Pengaturan email
-    $mail->setFrom('your_gmail@gmail.com', 'Nama Anda');
+    $mail->setFrom('elcorpsdev@gmail.com', 'Elcorps Dev'); // Ganti dengan email dan nama Anda
     $mail->addAddress('recipient@example.com', 'Nama Penerima');
     $mail->Subject = 'Tes Email SMTP Gmail';
     $mail->Body    = 'Ini adalah email percobaan menggunakan Gmail SMTP dan PHPMailer.';
