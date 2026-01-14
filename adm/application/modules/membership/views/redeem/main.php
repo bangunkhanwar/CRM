@@ -144,7 +144,7 @@ function submit_redeem_point(id, rpoint, gdesc) {
         totalredeem: totalredeem
     };
     
-    // Tampilkan konfirmasi awal - DENGAN SINTAS SWEETALERT1
+    // Tampilkan konfirmasi awal
     swal({
         title: "Konfirmasi",
         text: "Point sejumlah " + totalredeem + " akan ditukar dengan reward " + qtyredeem + " " + gdesc + "?",
@@ -211,83 +211,140 @@ function printRedeem(id="",status="",member="") {
 	function sendOtp(method) {
 		showProgres();
 		
+		var member_code = $('#member_code').val();
+		
+		if (!member_code) {
+			hideProgres();
+			swal('Error', 'Member code tidak ditemukan', "error");
+			return;
+		}
+		
 		$.ajax({
 			url: site_url + "membership/redeem/send_otp",
 			type: 'POST',
 			dataType: 'json',
 			data: { 
-				t_member_code: window.pendingRedeem.member,
+				t_member_code: member_code,
 				t_method: method
 			},
 			success: function(result) {
 				hideProgres();
-				console.log('OTP Response:', result);
 				
 				if(result.error) {
 					swal('Gagal', result.error, "error");
 				} else {
-					showOtpInputModal(result.otp_demo, method, result.contact);
+					// Simpan data pending redeem
+					if (window.pendingRedeem) {
+						localStorage.setItem('pendingRedeem', JSON.stringify(window.pendingRedeem));
+					}
+					
+					// Gunakan HTML yang TIDAK menampilkan OTP
+					let methodName = method === 'whatsapp' ? 'WhatsApp' : 'Email';
+					let htmlContent = `
+						<div style="text-align: center;">
+							<p>Kode OTP telah dikirim via <strong>${methodName}</strong></p>
+							<p style="font-size: 12px; color: #666;">
+								Kode OTP telah dikirim ke : ${result.contact}<br>
+								OTP berlaku 10 menit
+							</p>
+						</div>
+					`;
+					
+					showOtpInputModal(htmlContent);
 				}
 			},
 			error: function(xhr, status, error) {
 				hideProgres();
 				console.error('AJAX Error:', xhr.responseText);
-				// Fallback untuk testing
-				showOtpInputModal('123456', method, method === 'whatsapp' ? $('#phone_number').val() : 'test@email.com');
+				
+				// Fallback jika terjadi error AJAX
+				let htmlContent = `
+					<div style="text-align: center;">
+						<p style="color: #dc3545;">Terjadi kesalahan saat mengirim OTP.</p>
+						<p>Silakan coba lagi atau hubungi administrator.</p>
+					</div>
+				`;
+				
+				showOtpInputModal(htmlContent);
 			}
 		});
 	}
 
-	// Tampilkan modal input OTP
-	function showOtpInputModal(otpDemo, method, contact) {
-		let methodName = method === 'whatsapp' ? 'WhatsApp' : 'Email';
-		let message = `Kode OTP telah dikirim via ${methodName}${contact ? ' ke ' + contact : ''}\n\n`;
-		message += `Masukkan 6 digit kode OTP:`;
+	// modal input OTP
+	function showOtpInputModal(htmlContent) {
+		// Buat div untuk konten
+		var $content = $('<div>').html(htmlContent);
 		
-		if (otpDemo) {
-			message += `\n\nUntuk testing: ${otpDemo}`;
-		}
+		// Tambahkan input field
+		$content.append(`
+			<div style="margin-top: 20px;">
+				<input type="text" 
+					id="otpInputField" 
+					placeholder="Masukkan 6 digit OTP" 
+					maxlength="6"
+					style="width: 100%; padding: 15px; font-size: 20px; text-align: center; letter-spacing: 5px; border: 2px solid #007bff; border-radius: 5px;"
+					onkeypress="return /[0-9]/i.test(event.key)">
+			</div>
+		`);
 		
 		swal({
 			title: "Verifikasi OTP",
-			text: message,
-			content: {
-				element: "input",
-				attributes: {
-					placeholder: "Masukkan 6 digit OTP",
-					type: "text",
-					maxlength: "6",
-					style: "width: 100%; padding: 10px; font-size: 18px; text-align: center; letter-spacing: 5px;"
-				}
-			},
+			content: $content[0],
 			buttons: {
-				cancel: "Batal",
-				confirm: "Verifikasi"
+				cancel: {
+					text: "Batal",
+					value: null,
+					visible: true
+				},
+				confirm: {
+					text: "Verifikasi",
+					value: true,
+					visible: true
+				}
 			}
-		}).then((otp) => {
-			if (otp && otp.length === 6) {
-				verifyOtpAndRedeem(otp);
-			} else if (otp) {
-				swal('Error', 'Kode OTP harus 6 digit', "error");
+		}).then((value) => {
+			if (value) {
+				var otp = $('#otpInputField').val();
+				if (otp && otp.length === 6) {
+					verifyOtpAndRedeem(otp);
+				} else {
+					swal('Error', 'Kode OTP harus 6 digit angka', "error");
+				}
 			}
 		});
+		
+		// Auto focus ke input field setelah modal muncul
+		setTimeout(function() {
+			$('#otpInputField').focus();
+		}, 300);
 	}
 
 	// Verifikasi OTP dan proses redeem
 	function verifyOtpAndRedeem(otpCode) {
 		showProgres();
-		const pending = window.pendingRedeem;
+		
+		// Ambil data dari session storage atau window variable
+		var pendingData = window.pendingRedeem;
+		if (!pendingData) {
+			pendingData = JSON.parse(sessionStorage.getItem('pendingRedeem') || '{}');
+		}
+		
+		if (!pendingData.member) {
+			hideProgres();
+			swal('Error', 'Data redeem tidak ditemukan', "error");
+			return;
+		}
 		
 		$.ajax({
 			url: site_url + "membership/redeem/verify_otp_redeem",
 			type: 'POST',
 			dataType: 'json',
 			data: {
-				t_member_code: pending.member,
+				t_member_code: pendingData.member,
 				t_otp: otpCode,
-				id: pending.id,
-				qty: pending.qtyredeem,
-				total: pending.totalredeem
+				id: pendingData.id,
+				qty: pendingData.qtyredeem,
+				total: pendingData.totalredeem
 			},
 			success: function(result) {
 				hideProgres();
@@ -296,12 +353,64 @@ function printRedeem(id="",status="",member="") {
 					swal(result.header || 'Error', result.error, "error");
 				} else {
 					swal(result.header || 'Berhasil', result.success, "success").then(() => {
+						// Bersihkan session storage
+						sessionStorage.removeItem('pendingRedeem');
+						
 						printRedeem(result.refnum, '', result.member);
-						select_lookup_member();
+						select_lookup_member(); // Refresh data
 					});
 				}
 			},
-			
+			error: function(xhr, status, error) {
+				hideProgres();
+				console.error('AJAX Error:', error);
+				swal('Error', 'Terjadi kesalahan saat verifikasi OTP', "error");
+			}
+		});
+	}
+
+	function submit_redeem_point(id, rpoint, gdesc) {
+		var member = $('#member_code').val();
+		var name = $('#full_name').val();
+		var qtypoint = $('#total_point').val();
+		var qtyredeem = 1;
+		
+		// Cari input quantity jika ada
+		if ($('#' + id).length > 0 && $('#' + id).val()) {
+			qtyredeem = parseInt($('#' + id).val()) || 1;
+		}
+		
+		var totalredeem = qtyredeem * rpoint;
+		
+		if (totalredeem > qtypoint) {
+			swal('Penukaran Point Gagal !', 'Point tidak cukup untuk ditukar dengan reward tersebut', "error");
+			return;
+		}
+		
+		// Simpan data redeem untuk diproses setelah OTP valid
+		window.pendingRedeem = {
+			id: id,
+			rpoint: rpoint,
+			gdesc: gdesc,
+			member: member,
+			name: name,
+			qtyredeem: qtyredeem,
+			totalredeem: totalredeem
+		};
+		
+		// Tampilkan konfirmasi awal
+		swal({
+			title: "Konfirmasi",
+			text: "Point sejumlah " + totalredeem + " akan ditukar dengan reward " + qtyredeem + " " + gdesc + "?",
+			icon: "warning",
+			buttons: {
+				cancel: "Tidak",
+				confirm: "Ya"
+			}
+		}).then((value) => {
+			if (value) {
+				showOtpMethodModal();
+			}
 		});
 	}
 

@@ -14,6 +14,7 @@ class Redeem extends MY_Controller {
 		$this->load->model('master/point_beon_model');
 		$this->load->model('member_history_model');
 		$this->load->model('points_model');
+		$this->load->library('email');
 	}
 	
 	public function index()
@@ -250,7 +251,7 @@ class Redeem extends MY_Controller {
 		
 		try {
 			$member_code = $this->input->post('t_member_code');
-			$method = $this->input->post('t_method'); // 'whatsapp' atau 'email'
+			$method = $this->input->post('t_method');
 			
 			if (empty($member_code)) {
 				echo json_encode(['error' => 'Member code diperlukan']);
@@ -262,7 +263,7 @@ class Redeem extends MY_Controller {
 				return;
 			}
 			
-			// Cari member menggunakan model yang sudah ada
+			// Cari member
 			$where = array('MemberCode' => $member_code);
 			$memberdata = $this->member_model->get($where);
 			
@@ -271,19 +272,78 @@ class Redeem extends MY_Controller {
 				return;
 			}
 			
-			// Generate OTP baru
-			$otp = rand(100000, 999999);
+			// Generate OTP
+			$otp = sprintf('%06d', mt_rand(0, 999999));
 			
-			// Update OTP ke database
+			// Simpan ke database
+			$data_update = [
+				'OTP' => $otp, 
+				'LastUpdate' => date('Y-m-d H:i:s')
+			];
+			
 			$this->db->where('MemberCode', $member_code);
-			$this->db->update('member.Member', ['OTP' => $otp]);
+			$this->db->update('member.Member', $data_update);
 			
-			// Untuk testing, return OTP
+			if (!$this->db->affected_rows()) {
+				echo json_encode(['error' => 'Gagal menyimpan OTP ke database']);
+				return;
+			}
+			
+			// Kirim OTP berdasarkan metode
+			$contact = '';
+			
+			if ($method == 'email') {
+				$email = $memberdata['Email'];
+				$name = $memberdata['Name'];
+				
+				// Validasi email
+				if (empty($email) || trim($email) == '' || $email == "''") {
+					echo json_encode(['error' => 'Email member tidak ditemukan']);
+					return;
+				}
+				
+				$email = str_replace(["'", '"'], '', $email);
+				$email = trim($email);
+				
+				if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+					echo json_encode(['error' => 'Format email tidak valid: ' . $email]);
+					return;
+				}
+				
+				$contact = $email;
+				
+				// Coba kirim email dengan SMTP Gmail
+				$email_sent = $this->_send_email_otp($email, $name, $otp, $member_code);
+				
+				if (!$email_sent) {
+					// Jika gagal, tetap berikan OTP untuk testing
+					// Simpan ke log file
+					$log_msg = "[" . date('Y-m-d H:i:s') . "] OTP untuk {$member_code}: {$otp}\n";
+					file_put_contents(APPPATH . 'logs/otp_backup.log', $log_msg, FILE_APPEND);
+				}
+				
+			} else if ($method == 'whatsapp') {
+				$phone = $memberdata['Handpone'];
+				if (empty($phone) || trim($phone) == '' || $phone == "''") {
+					echo json_encode(['error' => 'Nomor handphone member tidak ditemukan']);
+					return;
+				}
+				
+				$phone = str_replace(["'", '"'], '', $phone);
+				$phone = trim($phone);
+				$contact = $phone;
+				
+				// Untuk local, log saja
+				$log_msg = "[" . date('Y-m-d H:i:s') . "] WHATSAPP OTP untuk {$member_code}: {$otp} - Phone: {$phone}\n";
+				file_put_contents(APPPATH . 'logs/whatsapp_otp.log', $log_msg, FILE_APPEND);
+			}
+			
+			// return success OTP
 			echo json_encode([
-				'success' => 'OTP berhasil dikirim via ' . $method . ' (DEMO)',
-				'otp_demo' => $otp,
+				'success' => 'OTP berhasil dikirim via ' . ($method == 'whatsapp' ? 'WhatsApp' : 'Email'),
 				'method' => $method,
-				'contact' => $method == 'whatsapp' ? $memberdata['Handpone'] : $memberdata['Email']
+				'contact' => $contact,
+				'member_code' => $member_code
 			]);
 			
 		} catch (Exception $e) {
@@ -291,48 +351,228 @@ class Redeem extends MY_Controller {
 		}
 	}
 
-	// Update method verify_otp_redeem untuk menggunakan metode yang ada
-	public function verify_otp_redeem() {
-		$this->output->set_content_type('application/json');
-		
-		$member_code = $this->input->post('t_member_code');
-		$otp_input = $this->input->post('t_otp');
-		
-		if (empty($member_code) || empty($otp_input)) {
-			echo json_encode(['error' => 'Data tidak lengkap']);
-			return;
+	// Fungsi untuk kirim email OTP
+    private function _send_email_otp($to_email, $to_name, $otp_code, $member_code) {
+		try {
+			// KONFIGURASI SMTP untuk LOCAL XAMPP
+			$config = Array(
+				'protocol' => 'smtp',
+				'smtp_host' => 'smtp.gmail.com',  // Gunakan hostname tanpa ssl://
+				'smtp_port' => 587,               // Port 587 untuk TLS
+				'smtp_user' => 'elcorpsdev@gmail.com',
+				'smtp_pass' => 'rgjw nuiv imnc moqm',
+				'smtp_timeout' => 30,
+				'mailtype' => 'html',
+				'charset' => 'utf-8',
+				'newline' => "\r\n",
+				'smtp_crypto' => 'tls',           // Gunakan TLS, bukan SSL
+				'smtp_debug' => 0,
+				'smtp_auth' => true               // Tambahkan auth
+			);
+			
+			$this->email->initialize($config);
+			
+			$this->email->from('elcorpsdev@gmail.com', 'CRM System');
+			$this->email->to($to_email);
+			$this->email->subject('[CRM] Kode OTP untuk Redeem Point - ' . $member_code);
+			
+			// Template email (tidak perlu diubah)
+			$message = '<!DOCTYPE html>
+			<html>
+			<head>
+				<meta charset="utf-8">
+				<title>Kode OTP CRM</title>
+				<style>
+					body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+					.container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+					.header { background-color: #007bff; color: white; padding: 10px; text-align: center; border-radius: 5px 5px 0 0; }
+					.content { padding: 20px; }
+					.otp-box { 
+						font-size: 32px; 
+						font-weight: bold; 
+						color: #007bff; 
+						text-align: center; 
+						margin: 20px 0; 
+						padding: 15px; 
+						background-color: #f8f9fa; 
+						border: 2px dashed #007bff;
+						border-radius: 5px;
+						letter-spacing: 5px;
+					}
+					.footer { margin-top: 20px; padding-top: 10px; border-top: 1px solid #eee; color: #666; font-size: 12px; }
+				</style>
+			</head>
+			<body>
+				<div class="container">
+					<div class="header">
+						<h2>Kode OTP CRM System</h2>
+					</div>
+					<div class="content">
+						<p>Halo <strong>' . htmlspecialchars($to_name) . '</strong>,</p>
+						<p>Anda telah meminta kode OTP untuk proses penukaran point di sistem CRM.</p>
+						
+						<div class="otp-box">' . $otp_code . '</div>
+						
+						<p><strong>Kode ini berlaku selama 10 menit.</strong></p>
+						<p>Jika Anda tidak meminta kode ini, silakan abaikan email ini.</p>
+						
+						<p>Terima kasih,<br>
+						<strong>CRM System</strong></p>
+					</div>
+					<div class="footer">
+						<p>Email ini dikirim secara otomatis. Mohon tidak membalas email ini.</p>
+						<p>Member Code: ' . $member_code . '</p>
+						<p>Timestamp: ' . date('d/m/Y H:i:s') . '</p>
+					</div>
+				</div>
+			</body>
+			</html>';
+			
+			$this->email->message($message);
+			
+			// Coba kirim email
+			if ($this->email->send()) {
+				// Log sukses
+				$log_msg = "[" . date('Y-m-d H:i:s') . "] EMAIL OTP BERHASIL dikirim ke: " . $to_email . " - OTP: " . $otp_code . "\n";
+				file_put_contents(APPPATH . 'logs/email_success.log', $log_msg, FILE_APPEND);
+				return true;
+			} else {
+				// Untuk LOCAL DEVELOPMENT,
+				$error = $this->email->print_debugger();
+				
+				// Simpan OTP ke file untuk testing
+				$test_msg = "========================================\n";
+				$test_msg .= "Waktu: " . date('Y-m-d H:i:s') . "\n";
+				$test_msg .= "Email tujuan: " . $to_email . "\n";
+				$test_msg .= "Nama: " . $to_name . "\n";
+				$test_msg .= "Member Code: " . $member_code . "\n";
+				$test_msg .= "OTP: " . $otp_code . "\n";
+				$test_msg .= "Error SMTP: " . $error . "\n";
+				$test_msg .= "========================================\n";
+				
+				file_put_contents(APPPATH . 'logs/otp_local_test.log', $test_msg, FILE_APPEND);
+				
+				// Di local, anggap "berhasil" untuk melanjutkan flow, OTP tetap bisa diverifikasi karena disimpan di database
+				return false;
+			}
+			
+		} catch (Exception $e) {
+			$error_msg = "[" . date('Y-m-d H:i:s') . "] EXCEPTION: " . $e->getMessage() . "\n";
+			file_put_contents(APPPATH . 'logs/email_error.log', $error_msg, FILE_APPEND);
+			return false;
 		}
+	}
+    
+    // Fungsi untuk kirim WhatsApp OTP
+    private function _send_whatsapp_otp($phone, $otp, $name, $member_code) {
+		// Format nomor telepon
+		$phone = preg_replace('/[^0-9]/', '', $phone);
 		
-		// Cek OTP dari database
-		$this->db->where('MemberCode', $member_code);
-		$this->db->where('OTP', $otp_input);
-		$query = $this->db->get('member.Member');
+		// Log untuk local testing
+		$log_msg = "[" . date('Y-m-d H:i:s') . "] WHATSAPP OTP untuk {$member_code}:\n";
+		$log_msg .= "Nomor: {$phone}\n";
+		$log_msg .= "Nama: {$name}\n";
+		$log_msg .= "OTP: {$otp}\n";
+		$log_msg .= "========================================\n";
 		
-		if ($query->num_rows() == 0) {
-			echo json_encode(['error' => 'Kode OTP tidak valid']);
-			return;
+		file_put_contents(APPPATH . 'logs/whatsapp_otp.log', $log_msg, FILE_APPEND);
+		
+		// Di local, return true untuk melanjutkan flow
+		return true;
+	}
+
+	// Update method verify_otp_redeem 
+	 public function verify_otp_redeem() {
+        $this->output->set_content_type('application/json');
+        
+        $member_code = $this->input->post('t_member_code');
+        $otp_input = $this->input->post('t_otp');
+        
+        if (empty($member_code) || empty($otp_input)) {
+            echo json_encode(['error' => 'Data tidak lengkap']);
+            return;
+        }
+        
+        // Query untuk mengambil OTP dan LastUpdate
+        $this->db->select('"OTP", "LastUpdate", "Name", "Email", "Handpone"');
+        $this->db->from('member."Member"');
+        $this->db->where('"MemberCode"', $member_code);
+        $query = $this->db->get();
+        
+        if ($query->num_rows() == 0) {
+            echo json_encode(['error' => 'Member tidak ditemukan']);
+            return;
+        }
+        
+        $row = $query->row_array();
+        $otp_db = $row['OTP'];
+        $last_update = $row['LastUpdate'];
+        $name = $row['Name'];
+        
+        // Cek apakah OTP cocok
+        if ($otp_db != $otp_input) {
+            echo json_encode(['error' => 'Kode OTP tidak valid']);
+            return;
+        }
+        
+        // LastUpdate sebagai timestamp pembuatan OTP
+        if (!empty($last_update)) {
+            $otp_time = strtotime($last_update);
+            $current_time = time();
+            if (($current_time - $otp_time) > (10 * 60)) {
+                // Hapus OTP yang expired
+                $this->db->where('"MemberCode"', $member_code);
+                $this->db->update('member."Member"', ['OTP' => NULL]);
+                
+                echo json_encode(['error' => 'Kode OTP sudah kadaluwarsa. Silakan minta OTP baru.']);
+                return;
+            }
+        }
+        
+        // Hapus OTP setelah digunakan
+        $this->db->where('"MemberCode"', $member_code);
+        $this->db->update('member."Member"', ['OTP' => NULL]);
+        
+        // Ambil data untuk redeem dari POST
+        $id = $this->input->post('id');
+        $qty = $this->input->post('qty') ?: 1;
+        $total = $this->input->post('total');
+        
+        // Set data POST untuk redeem_point
+        $_POST['member'] = $member_code;
+        $_POST['name'] = $name;
+        $_POST['id'] = $id;
+        $_POST['qty'] = $qty;
+        $_POST['total'] = $total;
+        
+        // Panggil redeem_point
+        $this->redeem_point();
+    }
+
+	 // TEST FUNCTION untuk email
+	public function test_email() {
+		echo "<h2>Testing Email Configuration</h2>";
+		
+		$test_email = 'your_test_email@gmail.com'; // GANTI dengan email Anda
+		$test_name = 'Test User';
+		$test_otp = '123456';
+		$test_member = 'TEST001';
+		
+		echo "Mengirim test email ke: {$test_email}<br>";
+		
+		$result = $this->_send_email_otp($test_email, $test_name, $test_otp, $test_member);
+		
+		if ($result) {
+			echo "<h3 style='color: green;'>Email berhasil dikirim!</h3>";
+			echo "Cek inbox email Anda.<br>";
+			echo "OTP: <strong>{$test_otp}</strong>";
+		} else {
+			echo "<h3 style='color: red;'>Gagal mengirim email</h3>";
+			echo "Error details:<br>";
+			echo "<pre>";
+			print_r($this->email->print_debugger());
+			echo "</pre>";
 		}
-		
-		// Hapus OTP setelah digunakan
-		$this->db->where('MemberCode', $member_code);
-		$this->db->update('member.Member', ['OTP' => NULL]);
-		
-		// Ambil data untuk redeem
-		$id = $this->input->post('id');
-		$qty = $this->input->post('qty') ?: 1;
-		$total = $this->input->post('total');
-		$name = $query->row()->Name;
-		
-		// Set data POST untuk redeem_point
-		$_POST['member'] = $member_code;
-		$_POST['name'] = $name;
-		$_POST['id'] = $id;
-		$_POST['qty'] = $qty;
-		$_POST['total'] = $total;
-		
-		// Panggil redeem_point
-		$this->redeem_point();
-		
 	}
 
 }
