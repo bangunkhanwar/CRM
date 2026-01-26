@@ -316,27 +316,46 @@ class Redeem extends MY_Controller {
 				$email_sent = $this->_send_email_otp($email, $name, $otp, $member_code);
 				
 				if (!$email_sent) {
-					// Jika gagal, tetap berikan OTP untuk testing
 					// Simpan ke log file
 					$log_msg = "[" . date('Y-m-d H:i:s') . "] OTP untuk {$member_code}: {$otp}\n";
 					file_put_contents(APPPATH . 'logs/otp_backup.log', $log_msg, FILE_APPEND);
 				}
 				
 			} else if ($method == 'whatsapp') {
+
 				$phone = $memberdata['Handpone'];
-				if (empty($phone) || trim($phone) == '' || $phone == "''") {
+				if (empty($phone)) {
 					echo json_encode(['error' => 'Nomor handphone member tidak ditemukan']);
 					return;
 				}
-				
-				$phone = str_replace(["'", '"'], '', $phone);
-				$phone = trim($phone);
+
+				// Normalisasi nomor
+				$phone = preg_replace('/[^0-9]/', '', $phone);
+				$phone = preg_replace('/^0/', '62', $phone);
 				$contact = $phone;
-				
-				// Untuk local, log saja
-				$log_msg = "[" . date('Y-m-d H:i:s') . "] WHATSAPP OTP untuk Member Code {$member_code}: {$otp} - Phone: {$phone}\n";
-				file_put_contents(APPPATH . 'logs/whatsapp_otp.log', $log_msg, FILE_APPEND);
+
+				// Kirim OTP via WhatsApp
+				$whatsapp_sent = $this->_send_whatsapp_otp(
+					$phone,
+					$otp,
+					$memberdata['Name'],
+					$member_code
+				);
+
+				if ($whatsapp_sent === false) {
+					echo json_encode(['error' => 'Gagal mengirim OTP via WhatsApp']);
+					return;
+				}
+
+				echo json_encode([
+					'success' => 'OTP berhasil dikirim via WhatsApp',
+					'method'  => 'whatsapp',
+					'contact' => $contact,
+					'member_code' => $member_code
+				]);
+				return;
 			}
+
 			
 			// return success OTP
 			echo json_encode([
@@ -351,23 +370,23 @@ class Redeem extends MY_Controller {
 		}
 	}
 
-	// Fungsi untuk kirim email OTP
+	// Fungsi kirim email OTP
     private function _send_email_otp($to_email, $to_name, $otp_code, $member_code) {
 		try {
 			// KONFIGURASI SMTP untuk LOCAL XAMPP
 			$config = Array(
 				'protocol' => 'smtp',
-				'smtp_host' => 'smtp.gmail.com',  // Gunakan hostname tanpa ssl://
-				'smtp_port' => 587,               // Port 587 untuk TLS
+				'smtp_host' => 'smtp.gmail.com',  
+				'smtp_port' => 587,               
 				'smtp_user' => 'elcorpsdev@gmail.com',
 				'smtp_pass' => 'rgjw nuiv imnc moqm',
 				'smtp_timeout' => 30,
 				'mailtype' => 'html',
 				'charset' => 'utf-8',
 				'newline' => "\r\n",
-				'smtp_crypto' => 'tls',           // Gunakan TLS, bukan SSL
+				'smtp_crypto' => 'tls',           
 				'smtp_debug' => 0,
-				'smtp_auth' => true               // Tambahkan auth
+				'smtp_auth' => true               
 			);
 			
 			$this->email->initialize($config);
@@ -376,7 +395,6 @@ class Redeem extends MY_Controller {
 			$this->email->to($to_email);
 			$this->email->subject('[CRM] Kode OTP untuk Redeem Point - ' . $member_code);
 			
-			// Template email (tidak perlu diubah)
 			$message = '<!DOCTYPE html>
 			<html>
 			<head>
@@ -430,17 +448,14 @@ class Redeem extends MY_Controller {
 			
 			$this->email->message($message);
 			
-			// Coba kirim email
 			if ($this->email->send()) {
 				// Log sukses
 				$log_msg = "[" . date('Y-m-d H:i:s') . "] EMAIL OTP BERHASIL dikirim ke: " . $to_email . " - OTP: " . $otp_code . "\n";
 				file_put_contents(APPPATH . 'logs/email_success.log', $log_msg, FILE_APPEND);
 				return true;
 			} else {
-				// Untuk LOCAL DEVELOPMENT,
 				$error = $this->email->print_debugger();
 				
-				// Simpan OTP ke file untuk testing
 				$test_msg = "========================================\n";
 				$test_msg .= "Waktu: " . date('Y-m-d H:i:s') . "\n";
 				$test_msg .= "Email tujuan: " . $to_email . "\n";
@@ -452,7 +467,6 @@ class Redeem extends MY_Controller {
 				
 				file_put_contents(APPPATH . 'logs/otp_local_test.log', $test_msg, FILE_APPEND);
 				
-				// Di local, anggap "berhasil" untuk melanjutkan flow, OTP tetap bisa diverifikasi karena disimpan di database
 				return false;
 			}
 			
@@ -463,58 +477,53 @@ class Redeem extends MY_Controller {
 		}
 	}
     
-    // Fungsi untuk kirim WhatsApp OTP
+    // Fungsi  kirim WhatsApp OTP
 	private function _send_whatsapp_otp($phone, $otp, $name, $member_code)
 	{
-		$this->load->config('whatsapp');
-
-		$env = ENVIRONMENT === 'production' ? 'production' : 'development';
-		$cfg = $this->config->item('whatsapp_api')[$env];
-
-		// Format nomor ke internasional (62)
+		// Normalisasi nomor
 		$phone = preg_replace('/[^0-9]/', '', $phone);
-		$phone = preg_replace('/^0/', '62', $phone);
+		if (substr($phone, 0, 1) === '0') {
+			$phone = '62' . substr($phone, 1);
+		}
 
-		// Template pesan
-		$message = str_replace(
-			['{nama}', '{otp}', '{member_code}'],
-			[$name, $otp, $member_code],
-			$this->config->item('message_template')
-		);
+		$url = 'https://api.bitbybit.studio/whatsapp/api/v3.1/message/template';
 
 		$payload = [
-			'sender'  => $cfg['sender'],
-			'number'  => $phone,
-			'message' => $message
+			'to' => $phone,
+			'template_name' => 'new_otp_template_indo',
+			'template_source' => 'AUTH',
+			'sources' => 'WHATSAPP_META',
+			'params' => [
+				$otp
+			],
+			'ignoreActiveTicket' => false,
+			'countryCode' => 'ID'
 		];
 
-		$ch = curl_init();
+		$ch = curl_init($url);
 		curl_setopt_array($ch, [
-			CURLOPT_URL => $cfg['api_url'],
-			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_POST => true,
+			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_HTTPHEADER => [
-				'Authorization: Bearer '.$cfg['api_key'],
-				'Content-Type: application/json'
+				'Content-Type: application/json',
+				'x-bitbybit-key: 13795fda8212aa6c0ce39d7f8d2b4cfe'
 			],
-			CURLOPT_POSTFIELDS => json_encode($payload),
-			CURLOPT_TIMEOUT => 30
+			CURLOPT_POSTFIELDS => json_encode($payload)
 		]);
 
 		$response = curl_exec($ch);
-		$error    = curl_error($ch);
+		$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		curl_close($ch);
 
-		// Log response (PENTING untuk debug)
-		log_message('info', '[WHATSAPP OTP RESPONSE] '.$response);
-
-		if ($error) {
-			log_message('error', '[WHATSAPP OTP ERROR] '.$error);
+		if (!$response) {
 			return false;
 		}
 
-		return true;
+		$res = json_decode($response, true);
+
+		return isset($res['status']) && $res['status'] === true;
 	}
+
 
 
 	// Update method verify_otp_redeem 
@@ -545,7 +554,6 @@ class Redeem extends MY_Controller {
         $last_update = $row['LastUpdate'];
         $name = $row['Name'];
         
-        // Cek apakah OTP cocok
         if ($otp_db != $otp_input) {
             echo json_encode(['error' => 'Kode OTP tidak valid']);
             return;
@@ -585,30 +593,5 @@ class Redeem extends MY_Controller {
         $this->redeem_point();
     }
 
-	 // TEST FUNCTION untuk email
-	public function test_email() {
-		echo "<h2>Testing Email Configuration</h2>";
-		
-		$test_email = 'your_test_email@gmail.com'; // GANTI dengan email Anda
-		$test_name = 'Test User';
-		$test_otp = '123456';
-		$test_member = 'TEST001';
-		
-		echo "Mengirim test email ke: {$test_email}<br>";
-		
-		$result = $this->_send_email_otp($test_email, $test_name, $test_otp, $test_member);
-		
-		if ($result) {
-			echo "<h3 style='color: green;'>Email berhasil dikirim!</h3>";
-			echo "Cek inbox email Anda.<br>";
-			echo "OTP: <strong>{$test_otp}</strong>";
-		} else {
-			echo "<h3 style='color: red;'>Gagal mengirim email</h3>";
-			echo "Error details:<br>";
-			echo "<pre>";
-			print_r($this->email->print_debugger());
-			echo "</pre>";
-		}
-	}
 
 }
