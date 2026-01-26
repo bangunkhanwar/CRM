@@ -334,7 +334,7 @@ class Redeem extends MY_Controller {
 				$contact = $phone;
 				
 				// Untuk local, log saja
-				$log_msg = "[" . date('Y-m-d H:i:s') . "] WHATSAPP OTP untuk {$member_code}: {$otp} - Phone: {$phone}\n";
+				$log_msg = "[" . date('Y-m-d H:i:s') . "] WHATSAPP OTP untuk Member Code {$member_code}: {$otp} - Phone: {$phone}\n";
 				file_put_contents(APPPATH . 'logs/whatsapp_otp.log', $log_msg, FILE_APPEND);
 			}
 			
@@ -464,22 +464,58 @@ class Redeem extends MY_Controller {
 	}
     
     // Fungsi untuk kirim WhatsApp OTP
-    private function _send_whatsapp_otp($phone, $otp, $name, $member_code) {
-		// Format nomor telepon
+	private function _send_whatsapp_otp($phone, $otp, $name, $member_code)
+	{
+		$this->load->config('whatsapp');
+
+		$env = ENVIRONMENT === 'production' ? 'production' : 'development';
+		$cfg = $this->config->item('whatsapp_api')[$env];
+
+		// Format nomor ke internasional (62)
 		$phone = preg_replace('/[^0-9]/', '', $phone);
-		
-		// Log untuk local testing
-		$log_msg = "[" . date('Y-m-d H:i:s') . "] WHATSAPP OTP untuk {$member_code}:\n";
-		$log_msg .= "Nomor: {$phone}\n";
-		$log_msg .= "Nama: {$name}\n";
-		$log_msg .= "OTP: {$otp}\n";
-		$log_msg .= "========================================\n";
-		
-		file_put_contents(APPPATH . 'logs/whatsapp_otp.log', $log_msg, FILE_APPEND);
-		
-		// Di local, return true untuk melanjutkan flow
+		$phone = preg_replace('/^0/', '62', $phone);
+
+		// Template pesan
+		$message = str_replace(
+			['{nama}', '{otp}', '{member_code}'],
+			[$name, $otp, $member_code],
+			$this->config->item('message_template')
+		);
+
+		$payload = [
+			'sender'  => $cfg['sender'],
+			'number'  => $phone,
+			'message' => $message
+		];
+
+		$ch = curl_init();
+		curl_setopt_array($ch, [
+			CURLOPT_URL => $cfg['api_url'],
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_POST => true,
+			CURLOPT_HTTPHEADER => [
+				'Authorization: Bearer '.$cfg['api_key'],
+				'Content-Type: application/json'
+			],
+			CURLOPT_POSTFIELDS => json_encode($payload),
+			CURLOPT_TIMEOUT => 30
+		]);
+
+		$response = curl_exec($ch);
+		$error    = curl_error($ch);
+		curl_close($ch);
+
+		// Log response (PENTING untuk debug)
+		log_message('info', '[WHATSAPP OTP RESPONSE] '.$response);
+
+		if ($error) {
+			log_message('error', '[WHATSAPP OTP ERROR] '.$error);
+			return false;
+		}
+
 		return true;
 	}
+
 
 	// Update method verify_otp_redeem 
 	 public function verify_otp_redeem() {

@@ -1,5 +1,17 @@
 <script src="<?= base_url();?>app-assets/js/scripts/extensions/sweet-alerts.js" type="text/javascript"></script>
 <script>
+
+function enableSwalConfirmButton() {
+	var btn = document.querySelector('.swal-button--confirm');
+	if (btn) {
+		btn.disabled = false;
+		btn.classList.remove('swal-button--loading');
+	}
+}
+
+var otpAttempt = 0;
+var MAX_OTP_ATTEMPT = 3;
+
 $(document).ready(function () {
 	toggle_card_input(0);
 	<?php 
@@ -272,69 +284,71 @@ function printRedeem(id="",status="",member="") {
 
 	// modal input OTP
 	function showOtpInputModal(htmlContent) {
-		// Buat div untuk konten
+
 		var $content = $('<div>').html(htmlContent);
-		
-		// Tambahkan input field
+
 		$content.append(`
-			<div style="margin-top: 20px;">
-				<input type="text" 
-					id="otpInputField" 
-					placeholder="Masukkan 6 digit OTP" 
+			<div style="margin-top:20px;">
+				<input type="text"
+					id="otpInputField"
+					placeholder="Masukkan 6 digit OTP"
 					maxlength="6"
-					style="width: 100%; padding: 15px; font-size: 20px; text-align: center; letter-spacing: 5px; border: 2px solid #007bff; border-radius: 5px;"
+					style="width:100%;padding:15px;font-size:20px;text-align:center;letter-spacing:5px;border:2px solid #007bff;border-radius:5px;"
 					onkeypress="return /[0-9]/i.test(event.key)">
+				<div id="otpErrorText" style="color:red;margin-top:8px;display:none;"></div>
 			</div>
 		`);
-		
+
 		swal({
 			title: "Verifikasi OTP",
 			content: $content[0],
 			buttons: {
 				cancel: {
 					text: "Batal",
-					value: null,
-					visible: true
+					visible: true,
+					closeModal: true
 				},
 				confirm: {
 					text: "Verifikasi",
-					value: true,
-					visible: true
-				}
-			}
-		}).then((value) => {
-			if (value) {
-				var otp = $('#otpInputField').val();
-				if (otp && otp.length === 6) {
-					verifyOtpAndRedeem(otp);
-				} else {
-					swal('Error', 'Kode OTP harus 6 digit angka', "error");
+					visible: true,
+					closeModal: false  
 				}
 			}
 		});
-		
-		// Auto focus ke input field setelah modal muncul
-		setTimeout(function() {
+
+		setTimeout(function () {
 			$('#otpInputField').focus();
 		}, 300);
+
+		$('.swal-button--confirm').off('click').on('click', function () {
+			var otp = $('#otpInputField').val();
+			$('#otpErrorText').hide();
+
+			if (!otp || otp.length < 6) {
+				swal.stopLoading();
+				enableSwalConfirmButton();
+				
+				$('#otpErrorText').text('Kode OTP harus 6 digit angka').show();
+				return;
+			}
+
+			verifyOtpAndRedeem(otp);
+		});
 	}
+
 
 	// Verifikasi OTP dan proses redeem
 	function verifyOtpAndRedeem(otpCode) {
+
 		showProgres();
-		
-		// Ambil data dari session storage atau window variable
+
 		var pendingData = window.pendingRedeem;
-		if (!pendingData) {
-			pendingData = JSON.parse(sessionStorage.getItem('pendingRedeem') || '{}');
-		}
-		
-		if (!pendingData.member) {
+		if (!pendingData || !pendingData.member) {
 			hideProgres();
-			swal('Error', 'Data redeem tidak ditemukan', "error");
+			swal('Error', 'Data redeem tidak ditemukan', 'error');
 			return;
 		}
-		
+
 		$.ajax({
 			url: site_url + "membership/redeem/verify_otp_redeem",
 			type: 'POST',
@@ -346,73 +360,46 @@ function printRedeem(id="",status="",member="") {
 				qty: pendingData.qtyredeem,
 				total: pendingData.totalredeem
 			},
-			success: function(result) {
+			success: function (result) {
 				hideProgres();
-				
-				if(result.error) {
-					swal(result.header || 'Error', result.error, "error");
-				} else {
-					swal(result.header || 'Berhasil', result.success, "success").then(() => {
-						// Bersihkan session storage
-						sessionStorage.removeItem('pendingRedeem');
-						
-						printRedeem(result.refnum, '', result.member);
-						select_lookup_member(); // Refresh data
-					});
+
+				if (result.error) {
+					otpAttempt++;
+
+					swal.stopLoading();
+					enableSwalConfirmButton();
+
+					if (otpAttempt >= MAX_OTP_ATTEMPT) {
+						otpAttempt = 0;
+						swal.close();
+						swal('Gagal', 'Kode OTP salah 3 kali. Silakan minta OTP baru.', 'error');
+					} else {
+						$('#otpErrorText')
+							.text('Kode OTP salah. Percobaan ' + otpAttempt + ' dari 3')
+							.show();
+					}
+					return;
 				}
+
+				// OTP BENAR
+				otpAttempt = 0;
+				swal.close();
+
+				swal('Berhasil', result.success, 'success').then(function () {
+					sessionStorage.removeItem('pendingRedeem');
+					printRedeem(result.refnum, '', result.member);
+					select_lookup_member();
+				});
 			},
-			error: function(xhr, status, error) {
+			error: function () {
 				hideProgres();
-				console.error('AJAX Error:', error);
-				swal('Error', 'Terjadi kesalahan saat verifikasi OTP', "error");
+				swal.close();
+				swal('Error', 'Terjadi kesalahan server', 'error');
 			}
 		});
 	}
 
-	function submit_redeem_point(id, rpoint, gdesc) {
-		var member = $('#member_code').val();
-		var name = $('#full_name').val();
-		var qtypoint = $('#total_point').val();
-		var qtyredeem = 1;
-		
-		// Cari input quantity jika ada
-		if ($('#' + id).length > 0 && $('#' + id).val()) {
-			qtyredeem = parseInt($('#' + id).val()) || 1;
-		}
-		
-		var totalredeem = qtyredeem * rpoint;
-		
-		if (totalredeem > qtypoint) {
-			swal('Penukaran Point Gagal !', 'Point tidak cukup untuk ditukar dengan reward tersebut', "error");
-			return;
-		}
-		
-		// Simpan data redeem untuk diproses setelah OTP valid
-		window.pendingRedeem = {
-			id: id,
-			rpoint: rpoint,
-			gdesc: gdesc,
-			member: member,
-			name: name,
-			qtyredeem: qtyredeem,
-			totalredeem: totalredeem
-		};
-		
-		// Tampilkan konfirmasi awal
-		swal({
-			title: "Konfirmasi",
-			text: "Point sejumlah " + totalredeem + " akan ditukar dengan reward " + qtyredeem + " " + gdesc + "?",
-			icon: "warning",
-			buttons: {
-				cancel: "Tidak",
-				confirm: "Ya"
-			}
-		}).then((value) => {
-			if (value) {
-				showOtpMethodModal();
-			}
-		});
-	}
+
 
 function loadHistory(member)
 	{
