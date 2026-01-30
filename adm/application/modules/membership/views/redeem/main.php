@@ -340,14 +340,33 @@ function printRedeem(id="",status="",member="") {
 	// Verifikasi OTP dan proses redeem
 	function verifyOtpAndRedeem(otpCode) {
 
-		showProgres();
+		// validasi OTP 6 DIGIT
+		if (!otpCode || otpCode.length < 6) {
+			$('#otpErrorText')
+				.text('Kode OTP harus 6 digit')
+				.show();
+			return;
+		}
+
+		// disable tombol confirm agar tidak double click
+		$('.swal-button--confirm').prop('disabled', true);
 
 		var pendingData = window.pendingRedeem;
 		if (!pendingData || !pendingData.member) {
-			hideProgres();
 			swal('Error', 'Data redeem tidak ditemukan', 'error');
+			$('.swal-button--confirm').prop('disabled', false);
 			return;
 		}
+
+		// tampilan loading PROSES
+		swal({
+			title: 'Sedang diproses',
+			text: 'Harap tunggu, verifikasi sedang berlangsung...',
+			icon: 'info',
+			buttons: false,
+			closeOnClickOutside: false,
+			closeOnEsc: false
+		});
 
 		$.ajax({
 			url: site_url + "membership/redeem/verify_otp_redeem",
@@ -361,18 +380,21 @@ function printRedeem(id="",status="",member="") {
 				total: pendingData.totalredeem
 			},
 			success: function (result) {
-				hideProgres();
 
+				// jika OTP SALAH
 				if (result.error) {
 					otpAttempt++;
 
-					swal.stopLoading();
-					enableSwalConfirmButton();
+					swal.close(); // tutup loading
+					$('.swal-button--confirm').prop('disabled', false);
 
 					if (otpAttempt >= MAX_OTP_ATTEMPT) {
 						otpAttempt = 0;
-						swal.close();
-						swal('Gagal', 'Kode OTP salah 3 kali. Silakan minta OTP baru.', 'error');
+						swal(
+							'Gagal',
+							'Kode OTP salah 3 kali. Silakan minta OTP baru.',
+							'error'
+						);
 					} else {
 						$('#otpErrorText')
 							.text('Kode OTP salah. Percobaan ' + otpAttempt + ' dari 3')
@@ -381,19 +403,20 @@ function printRedeem(id="",status="",member="") {
 					return;
 				}
 
-				// OTP BENAR
+				// jika OTP BENAR
 				otpAttempt = 0;
 				swal.close();
 
-				swal('Berhasil', result.success, 'success').then(function () {
-					sessionStorage.removeItem('pendingRedeem');
-					printRedeem(result.refnum, '', result.member);
-					select_lookup_member();
-				});
+				swal('Berhasil', result.success, 'success')
+					.then(function () {
+						sessionStorage.removeItem('pendingRedeem');
+						printRedeem(result.refnum, '', result.member);
+						select_lookup_member();
+					});
 			},
 			error: function () {
-				hideProgres();
 				swal.close();
+				$('.swal-button--confirm').prop('disabled', false);
 				swal('Error', 'Terjadi kesalahan server', 'error');
 			}
 		});
